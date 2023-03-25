@@ -18,9 +18,9 @@ function QuizList() {
     >
       <CssBaseline />
       <MenuButton />
-      {/* <ActiveQuiz /> */}
+      <ActiveQuiz />
 
-      <Container maxWidth="md">
+      {/* <Container maxWidth="md">
         <WelcomeText />
 
         <Container
@@ -36,7 +36,7 @@ function QuizList() {
           <QuizCard />
           <QuizCard />
         </Container>
-      </Container>
+      </Container> */}
     </div>
   )
 }

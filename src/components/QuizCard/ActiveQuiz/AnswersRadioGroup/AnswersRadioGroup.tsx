@@ -1,35 +1,61 @@
 import Radio from "@mui/material/Radio"
 import FormControl from "@mui/material/FormControl"
+import Button from "@mui/material/Button"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import CancelIcon from "@mui/icons-material/Cancel"
 
 import theme from "../../../../mui-theme"
 import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useState } from "react"
+import { Answer, Question } from "../../../../store/reducers/quizReducer"
 
-export default function AnswersRadioGroup() {
+type AnswersRadioGroupProp = {
+  answersProp: Answer[]
+  questionsProp: Question
+}
+
+export default function AnswersRadioGroup({
+  answersProp,
+  questionsProp,
+}: AnswersRadioGroupProp) {
   const [selected, setSelected] = useState<null | number>(null)
+  const [disabledAttempts, setDisabledAttempts] = useState<number[]>([])
 
-  const answers = [
-    {
-      id: 1,
-      text: "Paris",
-    },
-    {
-      id: 2,
-      text: "London",
-    },
-    {
-      id: 3,
-      text: "Moscow",
-    },
-    {
-      id: 4,
-      text: "Tokyo",
-    },
-    {
-      id: 5,
-      text: "Toronto",
-    },
-  ]
+  const setRadioButton = (answer: Answer) => {
+    const isCorrect = questionsProp.correctAnswerID === answer.id
+    const isSelected = selected === answer.id
+
+    if (disabledAttempts.includes(answer.id))
+      if (isCorrect) {
+        return (
+          <CheckCircleIcon
+            color="success"
+            sx={{ m: "9px" }}
+          />
+        )
+      } else {
+        return (
+          <CancelIcon
+            color="secondary"
+            sx={{ m: "9px" }}
+          />
+        )
+      }
+    else {
+      return (
+        <Radio
+          checked={isSelected}
+          color="secondary"
+        />
+      )
+    }
+  }
+
+  const addToAttemps = () => {
+    if (!selected) return
+
+    setDisabledAttempts([...disabledAttempts, selected])
+  }
 
   return (
     <FormControl
@@ -40,7 +66,7 @@ export default function AnswersRadioGroup() {
       }}
     >
       <List>
-        {answers.map(answer => {
+        {answersProp.map(answer => {
           const isSelected = selected === answer.id
 
           return (
@@ -52,13 +78,9 @@ export default function AnswersRadioGroup() {
                   ? "rgba(235, 171, 28, 0.08)"
                   : "unset",
               }}
+              disabled={disabledAttempts.includes(answer.id)}
             >
-              <ListItemIcon>
-                <Radio
-                  checked={isSelected}
-                  color="secondary"
-                />
-              </ListItemIcon>
+              <ListItemIcon>{setRadioButton(answer)}</ListItemIcon>
               <ListItemText
                 primary={answer.text}
                 sx={{
@@ -69,6 +91,15 @@ export default function AnswersRadioGroup() {
           )
         })}
       </List>
+      <Button
+        variant="contained"
+        disabled={!selected}
+        startIcon={<CheckCircleIcon />}
+        sx={{ alignSelf: "flex-end" }}
+        onClick={addToAttemps}
+      >
+        ANSWER
+      </Button>
     </FormControl>
   )
 }
