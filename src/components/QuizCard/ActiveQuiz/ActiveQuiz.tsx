@@ -2,8 +2,10 @@ import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
+import CssBaseline from "@mui/material/CssBaseline"
 
 import theme from "../../../mui-theme"
+import MenuButton from "../../UI/MenuButton"
 import { BackToQuizesButton } from "../../UI/BackToQuizesButton"
 import AnswersRadioGroup from "./AnswersRadioGroup/AnswersRadioGroup"
 import { useAppSelector } from "../../../store/hooks"
@@ -22,6 +24,8 @@ function ActiveQuiz() {
           height: "100vh",
         }}
       >
+        <CssBaseline />
+        <MenuButton />
         <Container maxWidth="md">
           <Container
             sx={{
@@ -65,6 +69,8 @@ function ActiveQuiz() {
         height: "100vh",
       }}
     >
+      <CssBaseline />
+      <MenuButton />
       <Container maxWidth="md">
         <Container
           sx={{
@@ -98,7 +104,7 @@ function ActiveQuiz() {
                     gutterBottom
                     sx={{ pl: "0.5rem" }}
                   >
-                    What is the capital of Great Britain?
+                    {currentQuestion.text}
                   </Typography>
 
                   <AnswersRadioGroup

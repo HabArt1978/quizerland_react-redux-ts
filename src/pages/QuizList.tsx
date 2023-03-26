@@ -1,11 +1,10 @@
 import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
 
-import theme from "../../mui-theme"
-import MenuButton from "../../components/UI/MenuButton"
-import WelcomeText from "./WelcomeText"
-import QuizCard from "../../components/QuizCard/QuizCard"
-import ActiveQuiz from "../../components/QuizCard/ActiveQuiz/ActiveQuiz"
+import theme from "../mui-theme"
+import MenuButton from "../components/UI/MenuButton"
+import WelcomeText from "../components/QuizCard/WelcomeText/WelcomeText"
+import QuizCard from "../components/QuizCard/QuizCard"
 
 function QuizList() {
   return (
@@ -18,9 +17,8 @@ function QuizList() {
     >
       <CssBaseline />
       <MenuButton />
-      <ActiveQuiz />
 
-      {/* <Container maxWidth="md">
+      <Container maxWidth="md">
         <WelcomeText />
 
         <Container
@@ -36,7 +34,7 @@ function QuizList() {
           <QuizCard />
           <QuizCard />
         </Container>
-      </Container> */}
+      </Container>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
+import { Link } from "react-router-dom"
 
 const card = (
   <>
@@ -30,12 +31,17 @@ const card = (
         pr: "1rem",
       }}
     >
-      <Button
-        size="small"
-        color="primary"
+      <Link
+        to="/active-quiz/:id"
+        style={{ textDecoration: "none", color: "white" }}
       >
-        TO THE QUIZ
-      </Button>
+        <Button
+          size="small"
+          color="primary"
+        >
+          TO THE QUIZ
+        </Button>
+      </Link>
     </CardActions>
   </>
 )
