@@ -1,21 +1,19 @@
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
-import theme from "../mui-theme"
 import { BackToQuizesButton } from "../components/UI/BackToQuizesButton"
 import CssBaseline from "@mui/material/CssBaseline"
-import MenuButton from "../components/UI/MenuButton"
 
 const CreateQuiz = () => {
   return (
     <div
       style={{
-        backgroundColor: theme.palette.secondary.main,
-        backgroundImage: `linear-gradient(0deg, ${theme.palette.info.main} 0%, ${theme.palette.secondary.main} 100%)`,
+        backgroundColor: `rgb(22,22,41)`,
+        backgroundImage: `linear-gradient(0deg, rgba(22,22,41,1) 0%, rgba(47,103,102,1) 35%, rgba(106,196,221,1) 100%)`,
         height: "100vh",
       }}
     >
       <CssBaseline />
-      <MenuButton />
+
       <Container maxWidth="md">
         <Container
           sx={{

@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent"
 import CssBaseline from "@mui/material/CssBaseline"
 
 import theme from "../../../mui-theme"
-import MenuButton from "../../UI/MenuButton"
 import { BackToQuizesButton } from "../../UI/BackToQuizesButton"
 import AnswersRadioGroup from "./AnswersRadioGroup/AnswersRadioGroup"
 import { useAppSelector } from "../../../store/hooks"
@@ -25,7 +24,7 @@ function ActiveQuiz() {
         }}
       >
         <CssBaseline />
-        <MenuButton />
+
         <Container maxWidth="md">
           <Container
             sx={{
@@ -70,7 +69,7 @@ function ActiveQuiz() {
       }}
     >
       <CssBaseline />
-      <MenuButton />
+
       <Container maxWidth="md">
         <Container
           sx={{

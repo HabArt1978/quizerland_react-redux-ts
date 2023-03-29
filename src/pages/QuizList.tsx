@@ -1,8 +1,6 @@
 import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
-
 import theme from "../mui-theme"
-import MenuButton from "../components/UI/MenuButton"
 import WelcomeText from "../components/QuizCard/WelcomeText/WelcomeText"
 import QuizCard from "../components/QuizCard/QuizCard"
 
@@ -16,7 +14,6 @@ function QuizList() {
       }}
     >
       <CssBaseline />
-      <MenuButton />
 
       <Container maxWidth="md">
         <WelcomeText />
