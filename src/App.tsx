@@ -2,6 +2,7 @@ import QuizList from "./pages/QuizList"
 import ActiveQuiz from "./components/QuizCard/ActiveQuiz/ActiveQuiz"
 import CreateQuiz from "./pages/CreateQuiz"
 import Auth from "./pages/Auth"
+import FinishedQuiz from "./components/FinishedQuiz/FinishedQuiz"
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage"
 import MenuToggle from "./components/Navigation/MenuToggle/MenuToggle"
 import { Routes, Route, Navigate } from "react-router-dom"
@@ -30,6 +31,10 @@ function App() {
         <Route
           path="/"
           element={<Navigate to="/quizes" />}
+        />
+        <Route
+          path="/finished-quiz"
+          element={<FinishedQuiz />}
         />
         <Route
           path="*"

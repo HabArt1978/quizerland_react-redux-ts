@@ -8,11 +8,34 @@ import theme from "../../../mui-theme"
 import { BackToQuizesButton } from "../../UI/BackToQuizesButton"
 import AnswersRadioGroup from "./AnswersRadioGroup/AnswersRadioGroup"
 import { useAppSelector } from "../../../store/hooks"
+import { useEffect } from "react"
+import { useNavigate } from "react-router"
+import { useParams } from "react-router-dom"
+import { useAppDispatch } from "../../../store/hooks"
+import { setActiveQuiz } from "../../../store/actions/quizAction"
 
 function ActiveQuiz() {
   const activeQuiz = useAppSelector(({ quizState }) =>
     quizState.quizes.find(quiz => quiz.id === quizState.activeID),
   )
+  const navigate = useNavigate()
+  const params = useParams()
+  const dispatch = useAppDispatch()
+
+  const currentQuestionId = activeQuiz?.currentQuestionId
+  const questionsLength = activeQuiz?.questions.length
+
+  useEffect(() => {
+    if (!currentQuestionId || !questionsLength) return
+
+    if (currentQuestionId > questionsLength) {
+      navigate("/finished-quiz")
+    }
+  }, [currentQuestionId, questionsLength, navigate])
+
+  useEffect(() => {
+    dispatch(setActiveQuiz(Number(params.id)))
+  }, [params.id, dispatch])
 
   if (!activeQuiz) {
     return (
@@ -82,7 +105,10 @@ function ActiveQuiz() {
         >
           <BackToQuizesButton />
 
-          <Card sx={{ minWidth: 275 }}>
+          <Card
+            elevation={10}
+            sx={{ minWidth: 275, borderRadius: "12px" }}
+          >
             <CardContent>
               {!currentQuestion ? (
                 <Typography
@@ -108,7 +134,7 @@ function ActiveQuiz() {
 
                   <AnswersRadioGroup
                     answersProp={currentQuestion.answers}
-                    questionsProp={currentQuestion}
+                    questionProp={currentQuestion}
                   />
                 </>
               )}

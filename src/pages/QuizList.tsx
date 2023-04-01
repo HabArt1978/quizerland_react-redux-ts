@@ -3,8 +3,11 @@ import CssBaseline from "@mui/material/CssBaseline"
 import theme from "../mui-theme"
 import WelcomeText from "../components/QuizCard/WelcomeText/WelcomeText"
 import QuizCard from "../components/QuizCard/QuizCard"
+import { useAppSelector } from "../store/hooks"
 
 function QuizList() {
+  const quizList = useAppSelector(({ quizState }) => quizState.quizes)
+
   return (
     <div
       style={{
@@ -21,15 +24,15 @@ function QuizList() {
         <Container
           sx={{
             maxHeight: "700px",
-            overflowY: "scroll",
+            overflowY: "auto",
           }}
         >
-          <QuizCard />
-          <QuizCard />
-          <QuizCard />
-          <QuizCard />
-          <QuizCard />
-          <QuizCard />
+          {quizList.map(quiz => (
+            <QuizCard
+              key={quiz.id}
+              quizProp={quiz}
+            />
+          ))}
         </Container>
       </Container>
     </div>

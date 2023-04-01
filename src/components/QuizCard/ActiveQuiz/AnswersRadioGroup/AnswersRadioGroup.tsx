@@ -9,20 +9,40 @@ import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useState } from "react"
 import { Answer, Question } from "../../../../store/reducers/quizReducer"
 
+import { toNextQuestion } from "../../../../store/actions/quizAction"
+import { useAppDispatch } from "../../../../store/hooks"
+
 type AnswersRadioGroupProp = {
   answersProp: Answer[]
-  questionsProp: Question
+  questionProp: Question
 }
 
 export default function AnswersRadioGroup({
   answersProp,
-  questionsProp,
+  questionProp,
 }: AnswersRadioGroupProp) {
   const [selected, setSelected] = useState<null | number>(null)
   const [disabledAttempts, setDisabledAttempts] = useState<number[]>([])
+  const dispatch = useAppDispatch()
+
+  const onAnswer = () => {
+    if (!selected) return
+    setDisabledAttempts([...disabledAttempts, selected])
+
+    const isCorrect = questionProp.correctAnswerID === selected
+
+    if (isCorrect) {
+      setTimeout(() => {
+        dispatch(toNextQuestion())
+
+        setSelected(null)
+        setDisabledAttempts([])
+      }, 1000)
+    }
+  }
 
   const setRadioButton = (answer: Answer) => {
-    const isCorrect = questionsProp.correctAnswerID === answer.id
+    const isCorrect = questionProp.correctAnswerID === answer.id
     const isSelected = selected === answer.id
 
     if (disabledAttempts.includes(answer.id))
@@ -51,12 +71,6 @@ export default function AnswersRadioGroup({
     }
   }
 
-  const addToAttemps = () => {
-    if (!selected) return
-
-    setDisabledAttempts([...disabledAttempts, selected])
-  }
-
   return (
     <FormControl
       sx={{
@@ -71,6 +85,7 @@ export default function AnswersRadioGroup({
 
           return (
             <ListItemButton
+              key={answer.text}
               onClick={() => setSelected(answer.id)}
               color="primary"
               sx={{
@@ -96,7 +111,7 @@ export default function AnswersRadioGroup({
         disabled={!selected}
         startIcon={<CheckCircleIcon />}
         sx={{ alignSelf: "flex-end" }}
-        onClick={addToAttemps}
+        onClick={onAnswer}
       >
         ANSWER
       </Button>
