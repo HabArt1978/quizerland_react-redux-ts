@@ -7,7 +7,7 @@ const CreateQuiz = () => {
   return (
     <div
       style={{
-        backgroundColor: `rgb(22,22,41)`,
+        backgroundColor: `rgb(106,196,221)`,
         backgroundImage: `linear-gradient(0deg, rgba(22,22,41,1) 0%, rgba(47,103,102,1) 35%, rgba(106,196,221,1) 100%)`,
         height: "100vh",
       }}

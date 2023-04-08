@@ -1,11 +1,14 @@
 import QuizList from "./pages/QuizList"
 import ActiveQuiz from "./components/QuizCard/ActiveQuiz/ActiveQuiz"
 import CreateQuiz from "./pages/CreateQuiz"
-import Auth from "./pages/Auth"
-import FinishedQuiz from "./components/FinishedQuiz/FinishedQuiz"
+import Auth from "./pages/Auth/Auth"
+import FinishedQuiz from "./pages/FinishedQuiz"
+import RedirectPage from "./pages/RedirectPage"
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage"
 import MenuToggle from "./components/Navigation/MenuToggle/MenuToggle"
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
+import Registration from "./pages/Auth/Registration"
+import "./index.css"
 
 function App() {
   return (
@@ -25,16 +28,21 @@ function App() {
           element={<Auth />}
         />
         <Route
+          path="/registration"
+          element={<Registration />}
+        />
+        <Route
           path="/create-quiz"
           element={<CreateQuiz />}
         />
         <Route
-          path="/"
-          element={<Navigate to="/quizes" />}
-        />
-        <Route
           path="/finished-quiz"
           element={<FinishedQuiz />}
+        />
+
+        <Route
+          path="/"
+          element={<RedirectPage />}
         />
         <Route
           path="*"
