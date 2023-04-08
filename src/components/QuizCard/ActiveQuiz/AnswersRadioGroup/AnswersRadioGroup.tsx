@@ -7,20 +7,19 @@ import CancelIcon from "@mui/icons-material/Cancel"
 import theme from "../../../../mui-theme"
 import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useState } from "react"
-import { Answer, Question } from "../../../../store/reducers/quizReducer"
+import { Answer, Question } from "../../../../store/quiz/reducer"
 
-import { toNextQuestion } from "../../../../store/actions/quizAction"
+import { toNextQuestion } from "../../../../store/quiz/actions"
 import { useAppDispatch } from "../../../../store/hooks"
+import { addRightAttempt } from "../../../../store/quiz/actions"
 
-type AnswersRadioGroupProp = {
-  answersProp: Answer[]
+type AnswersRadioGroupProps = {
   questionProp: Question
 }
 
 export default function AnswersRadioGroup({
-  answersProp,
   questionProp,
-}: AnswersRadioGroupProp) {
+}: AnswersRadioGroupProps) {
   const [selected, setSelected] = useState<null | number>(null)
   const [disabledAttempts, setDisabledAttempts] = useState<number[]>([])
   const dispatch = useAppDispatch()
@@ -32,12 +31,16 @@ export default function AnswersRadioGroup({
     const isCorrect = questionProp.correctAnswerID === selected
 
     if (isCorrect) {
+      setSelected(null)
+
       setTimeout(() => {
         dispatch(toNextQuestion())
-
-        setSelected(null)
         setDisabledAttempts([])
       }, 1000)
+    }
+
+    if (isCorrect && disabledAttempts.length === 0) {
+      dispatch(addRightAttempt())
     }
   }
 
@@ -80,7 +83,7 @@ export default function AnswersRadioGroup({
       }}
     >
       <List>
-        {answersProp.map(answer => {
+        {questionProp.answers.map(answer => {
           const isSelected = selected === answer.id
 
           return (
@@ -106,15 +109,26 @@ export default function AnswersRadioGroup({
           )
         })}
       </List>
-      <Button
-        variant="contained"
-        disabled={!selected}
-        startIcon={<CheckCircleIcon />}
-        sx={{ alignSelf: "flex-end" }}
-        onClick={onAnswer}
-      >
-        ANSWER
-      </Button>
+      <span style={{ display: "flex", justifyContent: "space-between" }}>
+        <span
+          style={{
+            fontSize: "1rem",
+            color: `${theme.palette.grey[500]}`,
+            flexShrink: "0",
+            alignSelf: "end",
+          }}
+        >
+          questions &nbsp; {questionProp.id} &nbsp; of &nbsp; {0}
+        </span>
+        <Button
+          variant="contained"
+          disabled={!selected}
+          startIcon={<CheckCircleIcon />}
+          onClick={onAnswer}
+        >
+          ANSWER
+        </Button>
+      </span>
     </FormControl>
   )
 }

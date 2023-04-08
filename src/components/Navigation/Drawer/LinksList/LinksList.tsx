@@ -11,6 +11,8 @@ import { Typography } from "@mui/material"
 
 import theme from "../../../../mui-theme"
 import { Link } from "react-router-dom"
+import { menuToggle } from "../../../../store/navigation/actions"
+import { useAppDispatch } from "../../../../store/hooks"
 
 type Link = {
   to: string
@@ -19,7 +21,7 @@ type Link = {
 }
 
 const links: Link[] = [
-  { to: "/", label: "Список тестов", name: "quizes" },
+  { to: "/quizes", label: "Список тестов", name: "quizes" },
   { to: "/create-quiz", label: "Создать тест", name: "create-quiz" },
   { to: "/auth", label: "Авторизация", name: "auth" },
 ]
@@ -49,6 +51,8 @@ const setIconLink = (link: Link) => {
 }
 
 const LinksList = () => {
+  const dispatch = useAppDispatch()
+
   return (
     <List>
       {links.map(link => (
@@ -65,7 +69,7 @@ const LinksList = () => {
               key={link.label}
               disablePadding
             >
-              <ListItemButton>
+              <ListItemButton onClick={() => dispatch(menuToggle())}>
                 <>
                   {setIconLink(link)}
 

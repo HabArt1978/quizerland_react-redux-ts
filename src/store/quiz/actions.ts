@@ -4,7 +4,8 @@ export type QuizAction =
   | ToNextQuestion
   | ResetCurrentQuestionId
   | SetActiveQuiz
-  | ToNextQuiz
+  | AddRightAttempt
+  | ResetRightAttempt
 
 interface ToNextQuestion extends Action {
   type: "TO_NEXT_QUESTION"
@@ -39,11 +40,20 @@ export const setActiveQuiz = (id: number) => {
   }
 }
 
-interface ToNextQuiz extends Action {
-  type: "TO_NEXT_QUIZ"
+interface AddRightAttempt extends Action {
+  type: "ADD_RIGHT_ATTEMPT"
 }
-export const toNextQuiz = (): ToNextQuiz => {
+export const addRightAttempt = (): AddRightAttempt => {
   return {
-    type: "TO_NEXT_QUIZ",
+    type: "ADD_RIGHT_ATTEMPT",
+  }
+}
+
+interface ResetRightAttempt extends Action {
+  type: "RESET_RIGHT_ATTEMPT"
+}
+export const resetRightAttempt = (): ResetRightAttempt => {
+  return {
+    type: "RESET_RIGHT_ATTEMPT",
   }
 }

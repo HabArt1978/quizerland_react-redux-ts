@@ -1,5 +1,5 @@
 import Container from "@mui/material/Container"
-import { Typography } from "@mui/material"
+import { Divider, Typography } from "@mui/material"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -12,15 +12,19 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router"
 import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../../store/hooks"
-import { setActiveQuiz } from "../../../store/actions/quizAction"
+import { setActiveQuiz } from "../../../store/quiz/actions"
+import {
+  currentQuestionSelector,
+  activeQuizSelector,
+} from "../../../store/quiz/selectors"
 
 function ActiveQuiz() {
-  const activeQuiz = useAppSelector(({ quizState }) =>
-    quizState.quizes.find(quiz => quiz.id === quizState.activeID),
-  )
+  const activeQuiz = useAppSelector(activeQuizSelector)
+  const currentQuestion = useAppSelector(currentQuestionSelector)
+  const dispatch = useAppDispatch()
+
   const navigate = useNavigate()
   const params = useParams()
-  const dispatch = useAppDispatch()
 
   const currentQuestionId = activeQuiz?.currentQuestionId
   const questionsLength = activeQuiz?.questions.length
@@ -28,16 +32,18 @@ function ActiveQuiz() {
   useEffect(() => {
     if (!currentQuestionId || !questionsLength) return
 
+    if (activeQuiz.id !== Number(params.id)) return
+
     if (currentQuestionId > questionsLength) {
       navigate("/finished-quiz")
     }
-  }, [currentQuestionId, questionsLength, navigate])
+  }, [currentQuestionId, questionsLength, navigate, params, activeQuiz])
 
   useEffect(() => {
     dispatch(setActiveQuiz(Number(params.id)))
   }, [params.id, dispatch])
 
-  if (!activeQuiz) {
+  if (!activeQuiz || !currentQuestion) {
     return (
       <div
         style={{
@@ -69,7 +75,7 @@ function ActiveQuiz() {
                   gutterBottom
                   sx={{ pl: "0.5rem", mb: 0 }}
                 >
-                  Quiz not found !
+                  Quiz or question not found !
                 </Typography>
               </CardContent>
             </Card>
@@ -78,10 +84,6 @@ function ActiveQuiz() {
       </div>
     )
   }
-
-  const currentQuestion = activeQuiz.questions.find(
-    question => question.id === activeQuiz.currentQuestionId,
-  )
 
   return (
     <div
@@ -127,15 +129,19 @@ function ActiveQuiz() {
                     component="h1"
                     color="initial"
                     gutterBottom
-                    sx={{ pl: "0.5rem" }}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      pl: "0.5rem",
+                      mb: "1rem",
+                    }}
                   >
                     {currentQuestion.text}
                   </Typography>
 
-                  <AnswersRadioGroup
-                    answersProp={currentQuestion.answers}
-                    questionProp={currentQuestion}
-                  />
+                  <Divider />
+
+                  <AnswersRadioGroup questionProp={currentQuestion} />
                 </>
               )}
             </CardContent>

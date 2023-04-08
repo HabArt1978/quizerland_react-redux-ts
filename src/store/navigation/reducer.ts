@@ -1,5 +1,5 @@
 import { Reducer } from "@reduxjs/toolkit"
-import { NavAction } from "../actions/navigationAction"
+import { NavAction } from "./actions"
 
 export type NavState = {
   isOpen: boolean

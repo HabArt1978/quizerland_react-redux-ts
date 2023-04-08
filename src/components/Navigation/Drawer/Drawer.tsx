@@ -3,7 +3,7 @@ import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
 import LinksList from "./LinksList/LinksList"
-import { menuToggle } from "../../../store/actions/navigationAction"
+import { menuToggle } from "../../../store/navigation/actions"
 import { useAppDispatch } from "../../../store/hooks"
 import { useAppSelector } from "../../../store/hooks"
 

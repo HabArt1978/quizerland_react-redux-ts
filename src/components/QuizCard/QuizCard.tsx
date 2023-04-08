@@ -4,8 +4,10 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { Quiz } from "../../store/reducers/quizReducer"
+import { Quiz } from "../../store/quiz/reducer"
 import { Link } from "react-router-dom"
+import theme from "../../mui-theme"
+import { Divider } from "@mui/material"
 
 type QuizCardProps = {
   quizProp: Quiz
@@ -24,20 +26,41 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
             component="h2"
             color="initial"
             gutterBottom
-            sx={{ mb: "1rem" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              mb: "0.5rem",
+            }}
           >
             {quizProp.title}
           </Typography>
 
-          <Typography variant="subtitle1">{quizProp.description}</Typography>
+          <Divider />
+
+          <Typography
+            variant="subtitle1"
+            sx={{ mt: "0.5rem" }}
+          >
+            {quizProp.description}
+          </Typography>
         </CardContent>
         <CardActions
           sx={{
             disrlay: "flex",
-            justifyContent: "flex-end",
-            pr: "1rem",
+            justifyContent: "space-between",
+            padding: "0 1rem 1rem 1rem",
           }}
         >
+          <span
+            style={{
+              fontSize: "1rem",
+              color: `${theme.palette.grey[500]}`,
+              flexShrink: "0",
+            }}
+          >
+            {quizProp.questions.length + "  questions"}
+          </span>
+
           <Link
             to={`/active-quiz/${quizProp.id}`}
             style={{ textDecoration: "none", color: "white" }}

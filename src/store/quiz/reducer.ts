@@ -1,5 +1,5 @@
 import { Reducer } from "@reduxjs/toolkit"
-import { QuizAction } from "../actions/quizAction"
+import { QuizAction } from "./actions"
 
 export type QuizState = {
   activeID: number
@@ -11,6 +11,7 @@ export type Quiz = {
   currentQuestionId: number
   title: string
   description: string
+  rightAttempt: number
   questions: Question[]
 }
 
@@ -35,6 +36,7 @@ const initialState = {
       title: "Quiz on the knowledge of geography",
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
+      rightAttempt: 0,
 
       questions: [
         {
@@ -101,6 +103,7 @@ const initialState = {
       title: "A quiz on the knowledge of history",
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
+      rightAttempt: 0,
 
       questions: [
         {
@@ -111,23 +114,23 @@ const initialState = {
           answers: [
             {
               id: 1,
-              text: "1943",
+              text: "in 1943",
             },
             {
               id: 2,
-              text: "1945",
+              text: "in 1945",
             },
             {
               id: 3,
-              text: "1905",
+              text: "in 1905",
             },
             {
               id: 4,
-              text: "1917",
+              text: "in 1917",
             },
             {
               id: 5,
-              text: "1942",
+              text: "in 1942",
             },
           ],
         },
@@ -167,6 +170,7 @@ const initialState = {
       title: "The quiz for car brands",
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
+      rightAttempt: 0,
 
       questions: [
         {
@@ -233,6 +237,7 @@ const initialState = {
       title: "Quiz on the theme of music",
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
+      rightAttempt: 0,
 
       questions: [
         {
@@ -299,6 +304,7 @@ const initialState = {
       title: "Art history quiz",
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
+      rightAttempt: 0,
 
       questions: [
         {
@@ -365,6 +371,7 @@ const initialState = {
       title: "Quiz about space and astronautics",
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
+      rightAttempt: 0,
 
       questions: [
         {
@@ -473,11 +480,37 @@ const quizReducer: Reducer<QuizState, QuizAction> = (
         activeID: action.payload.id,
       }
 
-    case "TO_NEXT_QUIZ":
+    case "ADD_RIGHT_ATTEMPT": {
+      const activeQuiz = state.quizes.find(quiz => quiz.id === state.activeID)
+      if (!activeQuiz) return state
+
+      const newActiveQuiz = { ...activeQuiz }
+      newActiveQuiz.rightAttempt += 1
+
+      const newQuizes = state.quizes.map(quiz =>
+        quiz.id === activeQuiz.id ? newActiveQuiz : quiz,
+      )
       return {
         ...state,
-        activeID: state.activeID + 1,
+        quizes: newQuizes,
       }
+    }
+
+    case "RESET_RIGHT_ATTEMPT": {
+      const activeQuiz = state.quizes.find(quiz => quiz.id === state.activeID)
+      if (!activeQuiz) return state
+
+      const newActiveQuiz = { ...activeQuiz }
+      newActiveQuiz.rightAttempt = 0
+
+      const newQuizes = state.quizes.map(quiz =>
+        quiz.id === activeQuiz.id ? newActiveQuiz : quiz,
+      )
+      return {
+        ...state,
+        quizes: newQuizes,
+      }
+    }
 
     default:
       return state

@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit"
-import quizReducer from "./quizReducer"
-import navigationReducer from "./navigationReducer"
+import quizReducer from "./quiz/reducer"
+import navigationReducer from "./navigation/reducer"
 
 const rootReducer = combineReducers({
   quizState: quizReducer,

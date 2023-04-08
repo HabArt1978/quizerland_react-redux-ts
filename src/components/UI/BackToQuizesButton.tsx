@@ -1,21 +1,14 @@
 import { Button } from "@mui/material"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
 import { Link } from "react-router-dom"
-import { useAppDispatch } from "../../store/hooks"
-import { resetCurrentQuestionId } from "../../store/actions/quizAction"
 
 export function BackToQuizesButton() {
-  const dispatch = useAppDispatch()
-
   return (
     <Link
-      to="/"
+      to="/quizes"
       style={{ textDecoration: "none", color: "white" }}
     >
-      <Button
-        onClick={() => dispatch(resetCurrentQuestionId())}
-        sx={{ alignSelf: "start", mb: "1rem" }}
-      >
+      <Button sx={{ alignSelf: "start", mb: "1rem" }}>
         <ArrowBackIosIcon />
         BACK TO QUIZES LIST
       </Button>
