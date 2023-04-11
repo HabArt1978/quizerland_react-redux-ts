@@ -141,7 +141,10 @@ function ActiveQuiz() {
 
                   <Divider />
 
-                  <AnswersRadioGroup questionProp={currentQuestion} />
+                  <AnswersRadioGroup
+                    questionProp={currentQuestion}
+                    activeQuizProp={activeQuiz}
+                  />
                 </>
               )}
             </CardContent>

@@ -7,7 +7,7 @@ import CancelIcon from "@mui/icons-material/Cancel"
 import theme from "../../../../mui-theme"
 import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useState } from "react"
-import { Answer, Question } from "../../../../store/quiz/reducer"
+import { Answer, Question, Quiz } from "../../../../store/quiz/reducer"
 
 import { toNextQuestion } from "../../../../store/quiz/actions"
 import { useAppDispatch } from "../../../../store/hooks"
@@ -15,10 +15,12 @@ import { addRightAttempt } from "../../../../store/quiz/actions"
 
 type AnswersRadioGroupProps = {
   questionProp: Question
+  activeQuizProp: Quiz
 }
 
 export default function AnswersRadioGroup({
   questionProp,
+  activeQuizProp,
 }: AnswersRadioGroupProps) {
   const [selected, setSelected] = useState<null | number>(null)
   const [disabledAttempts, setDisabledAttempts] = useState<number[]>([])
@@ -118,7 +120,8 @@ export default function AnswersRadioGroup({
             alignSelf: "end",
           }}
         >
-          questions &nbsp; {questionProp.id} &nbsp; of &nbsp; {0}
+          questions &nbsp; {questionProp.id} &nbsp; of &nbsp;{" "}
+          {activeQuizProp.questions.length}
         </span>
         <Button
           variant="contained"
