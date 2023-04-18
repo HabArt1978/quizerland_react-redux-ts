@@ -2,7 +2,7 @@ import CssBaseline from "@mui/material/CssBaseline"
 import theme from "../mui-theme"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import WelcomeText from "../components/QuizCard/WelcomeText/WelcomeText"
+import WelcomeText from "../components/WelcomeText"
 import { Container } from "@mui/material"
 
 function RedirectPage() {

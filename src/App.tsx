@@ -1,13 +1,14 @@
-import QuizList from "./pages/QuizList"
-import ActiveQuiz from "./components/QuizCard/ActiveQuiz/ActiveQuiz"
-import CreateQuiz from "./pages/CreateQuiz"
-import Auth from "./pages/Auth/Auth"
-import FinishedQuiz from "./pages/FinishedQuiz"
-import RedirectPage from "./pages/RedirectPage"
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage"
-import MenuToggle from "./components/Navigation/MenuToggle/MenuToggle"
 import { Routes, Route } from "react-router-dom"
-import Registration from "./pages/Auth/Registration"
+
+import QuizesPage from "./pages/quizes/index"
+import ActiveQuizPage from "./pages/quizes/_id"
+import CreateQuizPage from "./pages/quizes/create"
+import AuthPage from "./pages/auth"
+import FinishedQuizPage from "./pages/quizes/finished"
+import RedirectPage from "./pages/redirect"
+import NotFoundPage from "./pages/404/notFound"
+import MenuToggle from "./components/Navigation/MenuToggle"
+import RegistrationPage from "./pages/auth/registration"
 import "./index.css"
 
 function App() {
@@ -16,28 +17,28 @@ function App() {
       <MenuToggle />
       <Routes>
         <Route
-          path="/active-quiz/:id"
-          element={<ActiveQuiz />}
+          path="/quizes/:id"
+          element={<ActiveQuizPage />}
         />
         <Route
           path="/quizes"
-          element={<QuizList />}
+          element={<QuizesPage />}
         />
         <Route
           path="/auth"
-          element={<Auth />}
+          element={<AuthPage />}
         />
         <Route
           path="/registration"
-          element={<Registration />}
+          element={<RegistrationPage />}
         />
         <Route
           path="/create-quiz"
-          element={<CreateQuiz />}
+          element={<CreateQuizPage />}
         />
         <Route
           path="/finished-quiz"
-          element={<FinishedQuiz />}
+          element={<FinishedQuizPage />}
         />
 
         <Route

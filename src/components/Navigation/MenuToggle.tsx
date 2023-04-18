@@ -1,8 +1,8 @@
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
-import { menuToggle } from "../../../store/navigation/actions"
-import { useAppDispatch } from "../../../store/hooks"
-import MenuDrawer from "../Drawer/Drawer"
+import { menuToggle } from "../../store/navigation/actions"
+import { useAppDispatch } from "../../store/hooks"
+import MenuDrawer from "./Drawer/Drawer"
 
 const MenuToggle = () => {
   const dispatch = useAppDispatch()

@@ -12,18 +12,18 @@ import ListItemText from "@mui/material/ListItemText"
 import Divider from "@mui/material/Divider"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CancelIcon from "@mui/icons-material/Cancel"
-import { BackToQuizesButton } from "../components/UI/BackToQuizesButton"
-import { useAppDispatch } from "../store/hooks"
+import { BackToQuizesButton } from "../../components/ActiveQuiz/BackToQuizesButton"
+import { useAppDispatch } from "../../store/hooks"
 import { useNavigate } from "react-router"
-import { useAppSelector } from "../store/hooks"
+import { useAppSelector } from "../../store/hooks"
 import {
   resetCurrentQuestionId,
   setActiveQuiz,
   resetRightAttempt,
-} from "../store/quiz/actions"
-import NotFoundPage from "./NotFoundPage/NotFoundPage"
+} from "../../store/quiz/actions"
+import NotFoundPage from "../404/notFound"
 import { useState } from "react"
-import LoadingButton from "../components/UI/LoadingButton"
+import LoadingButton from "../../components/UI/LoadingButton"
 
 export default function FinishedQuiz() {
   const activeQuiz = useAppSelector(({ quizState }) =>
@@ -43,7 +43,7 @@ export default function FinishedQuiz() {
     setIsLoading("repeat")
 
     setTimeout(() => {
-      navigate(`/active-quiz/${activeQuiz.id}`)
+      navigate(`/quizes/${activeQuiz.id}`)
       dispatch(resetCurrentQuestionId())
       dispatch(resetRightAttempt())
     }, 1000)
@@ -54,7 +54,7 @@ export default function FinishedQuiz() {
 
     setTimeout(() => {
       dispatch(setActiveQuiz(activeQuiz.id + 1))
-      navigate(`/active-quiz/${activeQuiz.id + 1}`)
+      navigate(`/quizes/${activeQuiz.id + 1}`)
     }, 1000)
   }
 

@@ -1,9 +1,10 @@
 import Container from "@mui/material/Container"
-import { BackToQuizesButton } from "../../components/UI/BackToQuizesButton"
+import { BackToQuizesButton } from "../../components/ActiveQuiz/BackToQuizesButton"
 import CssBaseline from "@mui/material/CssBaseline"
-import ImageNotFoundPage from "./ImageNotFoundPage/ImageNotFoundPage"
+import PassedSvg from "./svg"
+// import NotFoundSvg from "./svg"
 
-const NotFoundPage = () => {
+const QuizesPassed = () => {
   return (
     <div
       style={{
@@ -31,11 +32,11 @@ const NotFoundPage = () => {
             <BackToQuizesButton />
           </div>
 
-          <ImageNotFoundPage />
+          <PassedSvg />
         </Container>
       </Container>
     </div>
   )
 }
 
-export default NotFoundPage
+export default QuizesPassed

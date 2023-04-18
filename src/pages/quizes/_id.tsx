@@ -4,19 +4,20 @@ import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import CssBaseline from "@mui/material/CssBaseline"
 
-import theme from "../../../mui-theme"
-import { BackToQuizesButton } from "../../UI/BackToQuizesButton"
-import AnswersRadioGroup from "./AnswersRadioGroup/AnswersRadioGroup"
-import { useAppSelector } from "../../../store/hooks"
+import theme from "../../mui-theme"
+import { BackToQuizesButton } from "../../components/ActiveQuiz/BackToQuizesButton"
+import AnswersRadioGroup from "../../components/ActiveQuiz/AnswersRadioGroup"
+
+import { useAppSelector } from "../../store/hooks"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
 import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../../store/hooks"
-import { setActiveQuiz } from "../../../store/quiz/actions"
+import { useAppDispatch } from "../../store/hooks"
+import { setActiveQuiz } from "../../store/quiz/actions"
 import {
   currentQuestionSelector,
   activeQuizSelector,
-} from "../../../store/quiz/selectors"
+} from "../../store/quiz/selectors"
 
 function ActiveQuiz() {
   const activeQuiz = useAppSelector(activeQuizSelector)

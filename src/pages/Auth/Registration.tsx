@@ -15,7 +15,7 @@ type InputField = {
   type?: string
 }
 
-const Registration = () => {
+const RegistrationPage = () => {
   const inputFields: InputField[] = [
     {
       label: "Фамилия",
@@ -128,4 +128,4 @@ const Registration = () => {
   )
 }
 
-export default Registration
+export default RegistrationPage

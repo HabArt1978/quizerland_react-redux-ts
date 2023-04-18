@@ -9,10 +9,10 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered"
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser"
 import { Typography } from "@mui/material"
 
-import theme from "../../../../mui-theme"
+import theme from "../../../mui-theme"
 import { Link } from "react-router-dom"
-import { menuToggle } from "../../../../store/navigation/actions"
-import { useAppDispatch } from "../../../../store/hooks"
+import { menuToggle } from "../../../store/navigation/actions"
+import { useAppDispatch } from "../../../store/hooks"
 
 type Link = {
   to: string

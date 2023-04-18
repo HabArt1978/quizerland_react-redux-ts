@@ -10,7 +10,7 @@ import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
-import theme from "../mui-theme"
+import theme from "../../mui-theme"
 
 type InputField = {
   label: string

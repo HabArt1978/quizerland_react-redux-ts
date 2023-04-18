@@ -4,9 +4,9 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { Quiz } from "../../store/quiz/reducer"
+import { Quiz } from "../store/quiz/reducer"
 import { Link } from "react-router-dom"
-import theme from "../../mui-theme"
+import theme from "../mui-theme"
 import { Divider } from "@mui/material"
 
 type QuizCardProps = {
@@ -62,7 +62,7 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
           </span>
 
           <Link
-            to={`/active-quiz/${quizProp.id}`}
+            to={`/quizes/${quizProp.id}`}
             style={{ textDecoration: "none", color: "white" }}
           >
             <Button

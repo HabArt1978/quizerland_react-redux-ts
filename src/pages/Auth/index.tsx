@@ -13,7 +13,7 @@ import { useState } from "react"
 import theme from "../../mui-theme"
 import { Link } from "react-router-dom"
 
-const Auth = () => {
+const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
@@ -131,4 +131,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default AuthPage
