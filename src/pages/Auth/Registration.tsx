@@ -18,16 +18,8 @@ type InputField = {
 const RegistrationPage = () => {
   const inputFields: InputField[] = [
     {
-      label: "Фамилия",
+      label: "Полное имя",
       required: true,
-    },
-    {
-      label: "Имя",
-      required: true,
-    },
-    {
-      label: "Отчество",
-      required: false,
     },
     {
       label: "Электронная почта",

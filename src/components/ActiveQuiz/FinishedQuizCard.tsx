@@ -19,7 +19,7 @@ import {
 } from "../../store/quiz/actions"
 import { useState } from "react"
 import LoadingButton from "../../components/UI/LoadingButton"
-import { Quiz } from "../../store/quiz/reducer"
+import { Quiz } from "../../store/quiz/types"
 
 type FinishedQuizCardProps = {
   quiz: Quiz
@@ -64,7 +64,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
           component="div"
           sx={{ mb: "1rem" }}
         >
-          Your results on: &nbsp; '{quiz.title}.'
+          Ваш результат: <b>{quiz.title}</b>
         </Typography>
 
         <Divider />
@@ -76,7 +76,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
                 <CancelIcon color="secondary" />
               </ListItemIcon>
               <ListItemText
-                primary={`Wrong attempts : ${
+                primary={`Неверные ответы: ${
                   quiz.questions.length - rightAnswers
                 }`}
               />
@@ -85,7 +85,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
               <ListItemIcon>
                 <CheckCircleIcon color="success" />
               </ListItemIcon>
-              <ListItemText primary={`Right answers : ${rightAnswers}`} />
+              <ListItemText primary={`Верные ответы: ${rightAnswers}`} />
             </ListItem>
           </List>
         </Box>
@@ -100,7 +100,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
           size="medium"
           loading={isLoading === "repeat"}
         >
-          repeat quiz
+          Пройти заново
         </LoadingButton>
 
         <LoadingButton
@@ -108,7 +108,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
           size="medium"
           loading={isLoading === "next"}
         >
-          next quiz
+          Перейти к следующему
         </LoadingButton>
       </CardActions>
     </Card>

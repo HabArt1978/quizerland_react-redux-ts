@@ -7,7 +7,7 @@ import CancelIcon from "@mui/icons-material/Cancel"
 import theme from "../../mui-theme"
 import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useState } from "react"
-import { Answer, Question, Quiz } from "../../store/quiz/reducer"
+import { Answer, Question, Quiz } from "../../store/quiz/types"
 
 import { toNextQuestion } from "../../store/quiz/actions"
 import { useAppDispatch } from "../../store/hooks"
@@ -120,7 +120,7 @@ export default function AnswersRadioGroup({
             alignSelf: "end",
           }}
         >
-          questions &nbsp; {questionProp.id} &nbsp; of &nbsp;{" "}
+          Вопрос &nbsp; {questionProp.id} &nbsp; из &nbsp;{" "}
           {activeQuizProp.questions.length}
         </span>
         <Button
@@ -129,7 +129,7 @@ export default function AnswersRadioGroup({
           startIcon={<CheckCircleIcon />}
           onClick={onAnswer}
         >
-          ANSWER
+          Ответить
         </Button>
       </span>
     </FormControl>

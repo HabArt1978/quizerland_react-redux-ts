@@ -3,7 +3,7 @@ import AnswersRadioGroup from "./AnswersRadioGroup"
 import theme from "../../mui-theme"
 import { useAppSelector } from "../../store/hooks"
 import { currentQuestionSelector } from "../../store/quiz/selectors"
-import { Quiz } from "../../store/quiz/reducer"
+import { Quiz } from "../../store/quiz/types"
 
 type ActiveQuizCardProps = {
   quiz: Quiz
@@ -26,7 +26,7 @@ const ActiveQuizCard: React.FC<ActiveQuizCardProps> = ({ quiz }) => {
             gutterBottom
             sx={{ pl: "0.5rem", mb: 0 }}
           >
-            Current question is not set !
+            Вопрос потерялся!
           </Typography>
         ) : (
           <>

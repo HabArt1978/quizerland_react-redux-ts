@@ -10,7 +10,7 @@ export function BackToQuizesButton() {
     >
       <Button sx={{ alignSelf: "start", mb: "1rem" }}>
         <ArrowBackIosIcon />
-        BACK TO QUIZES LIST
+        Вернуться к списку тестов
       </Button>
     </Link>
   )

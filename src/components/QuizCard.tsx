@@ -4,7 +4,7 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { Quiz } from "../store/quiz/reducer"
+import { Quiz } from "../store/quiz/types"
 import { Link } from "react-router-dom"
 import theme from "../mui-theme"
 import { Divider } from "@mui/material"
@@ -58,7 +58,7 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
               flexShrink: "0",
             }}
           >
-            {quizProp.questions.length + "  questions"}
+            {quizProp.questions.length + "  вопросов"}
           </span>
 
           <Link
@@ -69,7 +69,7 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
               size="small"
               color="primary"
             >
-              TO THE QUIZ
+              Перейти к тесту
             </Button>
           </Link>
         </CardActions>
