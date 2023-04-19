@@ -30,6 +30,11 @@ const RegistrationPage = () => {
       required: false,
     },
     {
+      label: "Электронная почта",
+      type: "email",
+      required: true,
+    },
+    {
       label: "Пароль",
       type: "password",
       required: true,
@@ -86,9 +91,18 @@ const RegistrationPage = () => {
                 id="fullWidth"
                 required={field.required}
                 variant="standard"
-                // error
-                // helperText="Неверный ввод."
-                sx={{ mb: "2rem", input: { color: "#f5f5f5" } }}
+                error
+                helperText="Неверный ввод."
+                sx={{
+                  mb: "2rem",
+                  input: { color: "#f5f5f5" },
+                  "& .Mui-error": {
+                    color: theme.palette.error.contrastText,
+                  },
+                  "& .MuiFormHelperText-root": {
+                    color: theme.palette.error.contrastText,
+                  },
+                }}
               />
             </Box>
           ))}

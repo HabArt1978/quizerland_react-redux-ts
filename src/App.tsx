@@ -4,7 +4,6 @@ import QuizesPage from "./pages/quizes/index"
 import ActiveQuizPage from "./pages/quizes/_id"
 import CreateQuizPage from "./pages/quizes/create"
 import AuthPage from "./pages/auth"
-import FinishedQuizPage from "./pages/quizes/finished"
 import RedirectPage from "./pages/redirect"
 import NotFoundPage from "./pages/404/notFound"
 import MenuToggle from "./components/Navigation/MenuToggle"
@@ -35,10 +34,6 @@ function App() {
         <Route
           path="/create-quiz"
           element={<CreateQuizPage />}
-        />
-        <Route
-          path="/finished-quiz"
-          element={<FinishedQuizPage />}
         />
 
         <Route

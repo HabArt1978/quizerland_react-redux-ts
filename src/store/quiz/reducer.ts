@@ -12,6 +12,7 @@ export type Quiz = {
   title: string
   description: string
   rightAttempt: number
+  isFinished: boolean
   questions: Question[]
 }
 
@@ -37,6 +38,7 @@ const initialState = {
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
       rightAttempt: 0,
+      isFinished: false,
 
       questions: [
         {
@@ -104,6 +106,7 @@ const initialState = {
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
       rightAttempt: 0,
+      isFinished: false,
 
       questions: [
         {
@@ -171,6 +174,7 @@ const initialState = {
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
       rightAttempt: 0,
+      isFinished: false,
 
       questions: [
         {
@@ -238,6 +242,7 @@ const initialState = {
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
       rightAttempt: 0,
+      isFinished: false,
 
       questions: [
         {
@@ -305,6 +310,7 @@ const initialState = {
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
       rightAttempt: 0,
+      isFinished: false,
 
       questions: [
         {
@@ -372,6 +378,7 @@ const initialState = {
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A ab eum unde necessitatibus nostrum provident et at debitis libero est.",
       rightAttempt: 0,
+      isFinished: false,
 
       questions: [
         {
@@ -445,7 +452,11 @@ const quizReducer: Reducer<QuizState, QuizAction> = (
       if (!activeQuiz) return state
 
       const newActiveQuiz = { ...activeQuiz }
-      newActiveQuiz.currentQuestionId += 1
+      if (newActiveQuiz.currentQuestionId === newActiveQuiz.questions.length) {
+        newActiveQuiz.isFinished = true
+      } else {
+        newActiveQuiz.currentQuestionId += 1
+      }
 
       const newQuizes = state.quizes.map(quiz =>
         quiz.id === activeQuiz.id ? newActiveQuiz : quiz,

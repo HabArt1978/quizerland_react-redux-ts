@@ -63,9 +63,18 @@ const AuthPage = () => {
               id="fullWidth"
               required
               variant="standard"
-              // error
-              // helperText="Неверный ввод."
-              sx={{ mb: "2rem", input: { color: "#f5f5f5" } }}
+              error
+              helperText="Неверный ввод."
+              sx={{
+                mb: "2rem",
+                input: { color: "#f5f5f5" },
+                "& .Mui-error": {
+                  color: theme.palette.error.contrastText,
+                },
+                "& .MuiFormHelperText-root": {
+                  color: theme.palette.error.contrastText,
+                },
+              }}
             />
           </Box>
           <Box
@@ -83,10 +92,19 @@ const AuthPage = () => {
               id="standard-password-input"
               autoComplete="current-password"
               required
-              // error
+              error={false}
               // helperText="Неверный ввод."
               variant="standard"
-              sx={{ mb: "2rem", input: { color: "#f5f5f5" } }}
+              sx={{
+                mb: "2rem",
+                input: { color: "#f5f5f5" },
+                "& .Mui-error": {
+                  color: theme.palette.error.contrastText,
+                },
+                "& .MuiFormHelperText-root": {
+                  color: theme.palette.error.contrastText,
+                },
+              }}
             />
 
             <IconButton

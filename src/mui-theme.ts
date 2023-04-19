@@ -22,6 +22,13 @@ const theme = createTheme({
       dark: colors.deepPurple[400],
       contrastText: colors.grey[100],
     },
+
+    error: {
+      main: colors.orange[700],
+      light: colors.orange[100],
+      dark: colors.orange[900],
+      contrastText: colors.grey[100],
+    },
   },
 })
 
