@@ -86,13 +86,13 @@ const RegistrationPage = () => {
                 error
                 helperText="Неверный ввод."
                 sx={{
-                  mb: "2rem",
+                  mb: "1.5rem",
                   input: { color: "#f5f5f5" },
                   "& .Mui-error": {
-                    color: theme.palette.error.contrastText,
+                    color: theme.palette.error.main,
                   },
                   "& .MuiFormHelperText-root": {
-                    color: theme.palette.error.contrastText,
+                    color: theme.palette.error.main,
                   },
                 }}
               />
@@ -103,7 +103,7 @@ const RegistrationPage = () => {
             size="small"
             color="primary"
             variant="contained"
-            sx={{ py: 1.5, bgcolor: theme.palette.primary.dark }}
+            sx={{ py: 1.5, mt: "1.5rem", bgcolor: theme.palette.primary.dark }}
             startIcon={
               <HowToRegIcon
                 sx={{

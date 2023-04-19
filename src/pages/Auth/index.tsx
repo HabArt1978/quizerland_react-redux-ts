@@ -12,11 +12,18 @@ import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import { useState } from "react"
 import theme from "../../mui-theme"
 import { Link } from "react-router-dom"
+import { allowEmpty, validateEmail, validatePassword } from "./authValidation"
 
 const AuthPage = () => {
+  const [emailValue, setEmailValue] = useState("")
+  const [passwordValue, setPasswordValue] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
+
+  const isValidEmail = allowEmpty(emailValue) || validateEmail(emailValue)
+  const isValidPassword =
+    allowEmpty(passwordValue) || validatePassword(passwordValue)
 
   return (
     <div
@@ -62,17 +69,19 @@ const AuthPage = () => {
               type="email"
               id="fullWidth"
               required
+              value={emailValue}
+              onChange={event => setEmailValue(event.currentTarget.value)}
               variant="standard"
-              error
-              helperText="Неверный ввод."
+              error={!isValidEmail}
+              helperText={!isValidEmail && "Неверный ввод."}
               sx={{
                 mb: "2rem",
                 input: { color: "#f5f5f5" },
                 "& .Mui-error": {
-                  color: theme.palette.error.contrastText,
+                  color: theme.palette.error.main,
                 },
                 "& .MuiFormHelperText-root": {
-                  color: theme.palette.error.contrastText,
+                  color: theme.palette.error.main,
                 },
               }}
             />
@@ -88,21 +97,23 @@ const AuthPage = () => {
             <TextField
               fullWidth
               label="Пароль"
-              type="password"
+              type={showPassword ? "text" : "password"}
+              value={passwordValue}
+              onChange={event => setPasswordValue(event.currentTarget.value)}
               id="standard-password-input"
               autoComplete="current-password"
               required
-              error={false}
-              // helperText="Неверный ввод."
+              error={!isValidPassword}
+              helperText={!isValidPassword && "Неверный ввод."}
               variant="standard"
               sx={{
                 mb: "2rem",
                 input: { color: "#f5f5f5" },
                 "& .Mui-error": {
-                  color: theme.palette.error.contrastText,
+                  color: theme.palette.error.main,
                 },
                 "& .MuiFormHelperText-root": {
-                  color: theme.palette.error.contrastText,
+                  color: theme.palette.error.main,
                 },
               }}
             />
@@ -111,7 +122,7 @@ const AuthPage = () => {
               onClick={handleClickShowPassword}
               sx={{ mb: 1.5 }}
             >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </Box>
 
