@@ -27,7 +27,7 @@ const theme = createTheme({
       main: colors.orange[700],
       light: colors.orange[100],
       dark: colors.orange[900],
-      contrastText: colors.grey[100],
+      contrastText: colors.grey[600],
     },
   },
 })
