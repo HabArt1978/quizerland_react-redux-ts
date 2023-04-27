@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom"
 
 import QuizesPage from "./pages/quizes/index"
 import ActiveQuizPage from "./pages/quizes/_id"
-import CreateQuizPage from "./pages/quizes/create"
+import CreateQuizPage from "./pages/quizes/create/create"
 import AuthPage from "./pages/auth"
 import RedirectPage from "./pages/redirect"
 import NotFoundPage from "./pages/404/notFound"

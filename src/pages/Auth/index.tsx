@@ -1,5 +1,5 @@
 import Container from "@mui/material/Container"
-import { IconButton, Typography } from "@mui/material"
+import { IconButton, SxProps, Typography } from "@mui/material"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import LockIcon from "@mui/icons-material/Lock"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -9,21 +9,46 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
-import { useState } from "react"
+import { FC, useState } from "react"
 import theme from "../../mui-theme"
 import { Link } from "react-router-dom"
-import { allowEmpty, validateEmail, validatePassword } from "./authValidation"
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
+import { emailRules, passwordRules } from "./authValidation"
 
-const AuthPage = () => {
-  const [emailValue, setEmailValue] = useState("")
-  const [passwordValue, setPasswordValue] = useState("")
+type AuthFields = {
+  email: string
+  password: string
+}
+
+const errorStyles: SxProps = {
+  mb: "2rem",
+  input: { color: "#f5f5f5" },
+  "& .Mui-error": {
+    color: theme.palette.error.main,
+  },
+  "& .MuiFormHelperText-root": {
+    color: theme.palette.error.main,
+  },
+}
+
+const AuthPage: FC = () => {
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { isDirty, isValid },
+  } = useForm<AuthFields>({
+    mode: "onChange",
+    defaultValues: { email: "", password: "" },
+  })
+
+  const onSubmit: SubmitHandler<AuthFields> = data => {
+    console.log(`email: ${data.email}, password: ${data.password}`)
+    reset()
+  }
+
   const [showPassword, setShowPassword] = useState(false)
-
   const handleClickShowPassword = () => setShowPassword(show => !show)
-
-  const isValidEmail = allowEmpty(emailValue) || validateEmail(emailValue)
-  const isValidPassword =
-    allowEmpty(passwordValue) || validatePassword(passwordValue)
 
   return (
     <div
@@ -49,84 +74,94 @@ const AuthPage = () => {
             variant="h4"
             component="h1"
             color={theme.palette.grey[100]}
-            gutterBottom
             sx={{ pl: "0.5rem", mb: "2rem" }}
           >
             Авторизация
           </Typography>
 
-          <Box
-            sx={{
-              maxWidth: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <AlternateEmailIcon sx={{ color: "action.active", mr: 1, mb: 2 }} />
-            <TextField
-              fullWidth
-              label="Электронная почта"
-              type="email"
-              id="fullWidth"
-              required
-              value={emailValue}
-              onChange={event => setEmailValue(event.currentTarget.value)}
-              variant="standard"
-              error={!isValidEmail}
-              helperText={!isValidEmail && "Неверный ввод."}
-              sx={{
-                mb: "2rem",
-                input: { color: "#f5f5f5" },
-                "& .Mui-error": {
-                  color: theme.palette.error.main,
-                },
-                "& .MuiFormHelperText-root": {
-                  color: theme.palette.error.main,
-                },
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              maxWidth: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <LockIcon sx={{ color: "action.active", mr: 1, mb: 2 }} />
-            <TextField
-              fullWidth
-              label="Пароль"
-              type={showPassword ? "text" : "password"}
-              value={passwordValue}
-              onChange={event => setPasswordValue(event.currentTarget.value)}
-              id="standard-password-input"
-              autoComplete="current-password"
-              required
-              error={!isValidPassword}
-              helperText={!isValidPassword && "Неверный ввод."}
-              variant="standard"
-              sx={{
-                mb: "2rem",
-                input: { color: "#f5f5f5" },
-                "& .Mui-error": {
-                  color: theme.palette.error.main,
-                },
-                "& .MuiFormHelperText-root": {
-                  color: theme.palette.error.main,
-                },
-              }}
-            />
+          <Controller
+            control={control}
+            name="email"
+            rules={emailRules}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Box
+                sx={{
+                  maxWidth: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <AlternateEmailIcon
+                  sx={{ color: "action.active", mr: 1, mb: 2 }}
+                />
+                <TextField
+                  fullWidth
+                  label="Электронная почта"
+                  type="email"
+                  id="emailID"
+                  required
+                  value={value}
+                  onChange={event => onChange(event)}
+                  variant="standard"
+                  error={!!error}
+                  helperText={error?.message}
+                  sx={errorStyles}
+                />
+              </Box>
+            )}
+          />
 
-            <IconButton
-              onClick={handleClickShowPassword}
-              sx={{ mb: 1.5 }}
-            >
-              {showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </Box>
+          <Controller
+            control={control}
+            name="password"
+            rules={passwordRules}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Box
+                sx={{
+                  maxWidth: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <LockIcon sx={{ color: "action.active", mr: 1, mb: 2 }} />
+                <TextField
+                  fullWidth
+                  label="Пароль"
+                  type={showPassword ? "text" : "password"}
+                  value={value}
+                  onChange={event => onChange(event)}
+                  id="standard-password-input"
+                  autoComplete="current-password"
+                  required
+                  error={!!error}
+                  helperText={error?.message}
+                  variant="standard"
+                  sx={errorStyles}
+                />
+
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  sx={{ mb: 1.5 }}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </Box>
+            )}
+          />
+
+          <Typography
+            variant="body2"
+            component="div"
+            color={theme.palette.error.main}
+            sx={{ pl: "0.5rem", mb: "2rem" }}
+          >
+            {!isDirty && !isValid && "Заполниете поля для авторизации"}
+          </Typography>
 
           <Button
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+            disabled={!isDirty || !isValid}
             size="small"
             variant="contained"
             sx={{ py: 1.5, bgcolor: theme.palette.primary.dark }}

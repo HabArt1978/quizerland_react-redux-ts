@@ -219,7 +219,7 @@ export const quizInitialState: QuizState = {
       questions: [
         {
           id: 1,
-          text: "В каком году был выпущен альбом 'The Dark Side of the Moon' от Pink Floyd?",
+          text: "В каком году вышел альбом 'The Dark Side of the Moon' группы Pink Floyd?",
           correctAnswerID: 5,
 
           answers: [
