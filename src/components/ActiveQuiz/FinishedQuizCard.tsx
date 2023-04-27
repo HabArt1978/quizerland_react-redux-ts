@@ -10,6 +10,9 @@ import ListItemText from "@mui/material/ListItemText"
 import Divider from "@mui/material/Divider"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CancelIcon from "@mui/icons-material/Cancel"
+import KeyboardTabIcon from "@mui/icons-material/KeyboardTab"
+import RepeatIcon from "@mui/icons-material/Repeat"
+import LoadingButton from "@mui/lab/LoadingButton"
 import { useAppDispatch } from "../../store/hooks"
 import { useNavigate } from "react-router-dom"
 import {
@@ -18,7 +21,6 @@ import {
   resetRightAttempt,
 } from "../../store/quiz/actions"
 import { useState } from "react"
-import LoadingButton from "../../components/UI/LoadingButton"
 import { Quiz } from "../../store/quiz/types"
 
 type FinishedQuizCardProps = {
@@ -38,7 +40,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
       navigate(`/quizes/${quiz.id}`)
       dispatch(resetCurrentQuestionId())
       dispatch(resetRightAttempt())
-    }, 1000)
+    }, 2000)
   }
 
   const toNextQuiz = () => {
@@ -47,7 +49,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
     setTimeout(() => {
       dispatch(setActiveQuiz(quiz.id + 1))
       navigate(`/quizes/${quiz.id + 1}`)
-    }, 1000)
+    }, 2000)
   }
 
   const rightAnswers = quiz.rightAttempt
@@ -99,6 +101,8 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
           onClick={repeatQuiz}
           size="medium"
           loading={isLoading === "repeat"}
+          loadingPosition="start"
+          startIcon={<RepeatIcon />}
         >
           Пройти заново
         </LoadingButton>
@@ -107,6 +111,8 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
           onClick={toNextQuiz}
           size="medium"
           loading={isLoading === "next"}
+          loadingPosition="end"
+          endIcon={<KeyboardTabIcon />}
         >
           Перейти к следующему
         </LoadingButton>
