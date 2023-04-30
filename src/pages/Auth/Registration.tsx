@@ -104,9 +104,7 @@ const RegistrationPage: FC = () => {
   })
 
   const onSubmit: SubmitHandler<RegisterInputType> = data => {
-    console.log(
-      `name: ${data.name}, email: ${data.email}, password: ${data.password}, confirmPassword: ${data.confirmPassword}`,
-    )
+    console.log(data)
     reset()
   }
 
@@ -195,7 +193,10 @@ const RegistrationPage: FC = () => {
             size="small"
             color="primary"
             variant="contained"
-            sx={{ py: 1.5, bgcolor: theme.palette.primary.dark }}
+            sx={{
+              py: 1.5,
+              bgcolor: theme.palette.primary.dark,
+            }}
             startIcon={
               <HowToRegIcon
                 sx={{

@@ -8,7 +8,7 @@ import { Container } from "@mui/material"
 function RedirectPage() {
   const navigate = useNavigate()
 
-  useEffect(() => navigate("/quizes"), [])
+  useEffect(() => navigate("/quizes"), [navigate])
 
   return (
     <div

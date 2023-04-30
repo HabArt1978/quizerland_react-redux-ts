@@ -40,7 +40,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
       navigate(`/quizes/${quiz.id}`)
       dispatch(resetCurrentQuestionId())
       dispatch(resetRightAttempt())
-    }, 2000)
+    }, 1500)
   }
 
   const toNextQuiz = () => {
@@ -49,7 +49,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
     setTimeout(() => {
       dispatch(setActiveQuiz(quiz.id + 1))
       navigate(`/quizes/${quiz.id + 1}`)
-    }, 2000)
+    }, 1500)
   }
 
   const rightAnswers = quiz.rightAttempt
@@ -78,16 +78,28 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
                 <CancelIcon color="secondary" />
               </ListItemIcon>
               <ListItemText
-                primary={`Неверные ответы: ${
-                  quiz.questions.length - rightAnswers
-                }`}
+                primary={
+                  <Typography variant="body1">
+                    Неверные ответы:{" "}
+                    <span style={{ fontSize: "1.2rem" }}>
+                      {quiz.questions.length - rightAnswers}
+                    </span>
+                  </Typography>
+                }
               />
             </ListItem>
             <ListItem>
               <ListItemIcon>
                 <CheckCircleIcon color="success" />
               </ListItemIcon>
-              <ListItemText primary={`Верные ответы: ${rightAnswers}`} />
+              <ListItemText
+                primary={
+                  <Typography variant="body1">
+                    Верные ответы:{" "}
+                    <span style={{ fontSize: "1.2rem" }}>{rightAnswers}</span>
+                  </Typography>
+                }
+              />
             </ListItem>
           </List>
         </Box>
@@ -111,8 +123,8 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
           onClick={toNextQuiz}
           size="medium"
           loading={isLoading === "next"}
-          loadingPosition="end"
-          endIcon={<KeyboardTabIcon />}
+          loadingPosition="start"
+          startIcon={<KeyboardTabIcon />}
         >
           Перейти к следующему
         </LoadingButton>

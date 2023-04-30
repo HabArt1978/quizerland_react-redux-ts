@@ -43,7 +43,7 @@ const AuthPage: FC = () => {
   })
 
   const onSubmit: SubmitHandler<AuthFields> = data => {
-    console.log(`email: ${data.email}, password: ${data.password}`)
+    console.log(data)
     reset()
   }
 

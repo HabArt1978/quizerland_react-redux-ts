@@ -70,15 +70,19 @@ const CreateQuiz: FC = () => {
     formState: { isDirty, isValid },
   } = useForm<CreateInputType>({
     mode: "onChange",
-    defaultValues: {},
+    defaultValues: {
+      question: "",
+      answer1: "",
+      answer2: "",
+      answer3: "",
+      answer4: "",
+      answer5: "",
+      select: "",
+    },
   })
 
   const onSubmit: SubmitHandler<CreateInputType> = data => {
-    console.log(
-      `question: ${data.question}, answer: ${answerFields.map(
-        field => field.inputName,
-      )}, select: ${data.select}`,
-    )
+    console.log(data)
     reset()
   }
 
@@ -203,11 +207,13 @@ const CreateQuiz: FC = () => {
             color={theme.palette.error.main}
             sx={{ pl: "0.5rem", mb: "2rem" }}
           >
-            {!isDirty && !isValid && "Заполниете поля для создания теста!"}
+            {!isDirty && !isValid && "Заполниете поля для создания теста"}
           </Typography>
 
           <span style={{ display: "flex", justifyContent: "space-between" }}>
             <Button
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
               fullWidth
               size="small"
               color="primary"
