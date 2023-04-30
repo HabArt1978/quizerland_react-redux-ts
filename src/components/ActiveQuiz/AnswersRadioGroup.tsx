@@ -16,11 +16,13 @@ import { addRightAttempt } from "../../store/quiz/actions"
 type AnswersRadioGroupProps = {
   questionProp: Question
   activeQuizProp: Quiz
+  handleRightAnswer?: () => void
 }
 
 export default function AnswersRadioGroup({
   questionProp,
   activeQuizProp,
+  handleRightAnswer,
 }: AnswersRadioGroupProps) {
   const [selected, setSelected] = useState<null | number>(null)
   const [disabledAttempts, setDisabledAttempts] = useState<number[]>([])
@@ -33,6 +35,7 @@ export default function AnswersRadioGroup({
     const isCorrect = questionProp.correctAnswerID === selected
 
     if (isCorrect) {
+      handleRightAnswer && handleRightAnswer()
       setSelected(null)
 
       setTimeout(() => {

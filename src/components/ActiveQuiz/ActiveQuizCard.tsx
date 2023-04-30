@@ -1,16 +1,24 @@
-import { Card, CardContent, Divider, Typography } from "@mui/material"
+import { Card, CardContent, LinearProgress, Typography } from "@mui/material"
 import AnswersRadioGroup from "./AnswersRadioGroup"
 import theme from "../../mui-theme"
 import { useAppSelector } from "../../store/hooks"
 import { currentQuestionSelector } from "../../store/quiz/selectors"
 import { Quiz } from "../../store/quiz/types"
+import { FC, useState } from "react"
 
 type ActiveQuizCardProps = {
   quiz: Quiz
 }
 
-const ActiveQuizCard: React.FC<ActiveQuizCardProps> = ({ quiz }) => {
+const ActiveQuizCard: FC<ActiveQuizCardProps> = ({ quiz }) => {
   const currentQuestion = useAppSelector(currentQuestionSelector)
+  const [progress, setProgress] = useState(
+    ((quiz.currentQuestionId - 1) / quiz.questions.length) * 100,
+  )
+
+  const onRightAnswer = () => {
+    setProgress((quiz.currentQuestionId / quiz.questions.length) * 100)
+  }
 
   return (
     <Card
@@ -45,11 +53,16 @@ const ActiveQuizCard: React.FC<ActiveQuizCardProps> = ({ quiz }) => {
               {currentQuestion.text}
             </Typography>
 
-            <Divider />
+            <LinearProgress
+              color="info"
+              variant="determinate"
+              value={progress}
+            />
 
             <AnswersRadioGroup
               questionProp={currentQuestion}
               activeQuizProp={quiz}
+              handleRightAnswer={onRightAnswer}
             />
           </>
         )}
