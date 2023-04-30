@@ -1,3 +1,25 @@
+import * as yup from "yup"
+
+export const schemaYup = yup.object().shape({
+  nane: yup
+    .string()
+    .matches(/[А-Я]/i, "Введите ваше имя на русском языке!")
+    .required("* Поле обязательное для заполнения!")
+    .min(2, "Имя должено иметь не менее 2 символов!")
+    .max(32, "Пароль не может иметь более 32 символов!"),
+
+  email: yup
+    .string()
+    .email("Электронная почта имеет невалидное значение!")
+    .required("* Поле обязательное для заполнения!"),
+
+  password: yup
+    .string()
+    .required("* Поле обязательное для заполнения!")
+    .min(8, "Пароль должен иметь не менее 8 символов!")
+    .max(32, "Пароль не может иметь более 32 символов!"),
+})
+
 export const emailRules = {
   required: "Поле обязательное для заполнения!",
   pattern: {
@@ -15,11 +37,11 @@ export const passwordRules = {
   },
   minLength: {
     value: 6,
-    message: "Пароль короче 6 символов!", // JS only: <p>error message</p> TS only support string
+    message: "Пароль короче 6 символов!",
   },
   maxLength: {
     value: 20,
-    message: "Пароль длиннее 20 символов!", // JS only: <p>error message</p> TS only support string
+    message: "Пароль длиннее 20 символов!",
   },
 }
 

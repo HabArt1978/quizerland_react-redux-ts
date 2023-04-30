@@ -1,5 +1,5 @@
 import Container from "@mui/material/Container"
-import { IconButton, SxProps, Typography } from "@mui/material"
+import { IconButton, Typography } from "@mui/material"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import LockIcon from "@mui/icons-material/Lock"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -9,27 +9,19 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
+
 import { FC, useState } from "react"
-import theme from "../../mui-theme"
 import { Link } from "react-router-dom"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { emailRules, passwordRules } from "./authValidation"
 
-type AuthFields = {
-  email: string
-  password: string
-}
+import theme from "../../mui-theme"
+import { errorStyles } from "./styles"
 
-const errorStyles: SxProps = {
-  mb: "2rem",
-  input: { color: "#f5f5f5" },
-  "& .Mui-error": {
-    color: theme.palette.error.main,
-  },
-  "& .MuiFormHelperText-root": {
-    color: theme.palette.error.main,
-  },
-}
+import { schemaYup } from "./authValidation"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+type FormData = yup.InferType<typeof schemaYup>
 
 const AuthPage: FC = () => {
   const {
@@ -37,12 +29,13 @@ const AuthPage: FC = () => {
     reset,
     control,
     formState: { isDirty, isValid },
-  } = useForm<AuthFields>({
+  } = useForm<FormData>({
     mode: "onChange",
     defaultValues: { email: "", password: "" },
+    resolver: yupResolver(schemaYup),
   })
 
-  const onSubmit: SubmitHandler<AuthFields> = data => {
+  const onSubmit: SubmitHandler<FormData> = data => {
     console.log(data)
     reset()
   }
@@ -82,7 +75,6 @@ const AuthPage: FC = () => {
           <Controller
             control={control}
             name="email"
-            rules={emailRules}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Box
                 sx={{
@@ -114,7 +106,6 @@ const AuthPage: FC = () => {
           <Controller
             control={control}
             name="password"
-            rules={passwordRules}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Box
                 sx={{
