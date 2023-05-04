@@ -1,12 +1,35 @@
 import * as yup from "yup"
 
 export const schemaYup = yup.object().shape({
-  nane: yup
+  name: yup
     .string()
-    .matches(/[А-Я]/i, "Введите ваше имя на русском языке!")
-    .required("* Поле обязательное для заполнения!")
-    .min(2, "Имя должено иметь не менее 2 символов!")
-    .max(32, "Пароль не может иметь более 32 символов!"),
+    .when("$regex1", (regex1, schema) =>
+      regex1
+        ? schema.matches(/[^\w\s]/g, "Введите ваше имя на русском языке!")
+        : schema,
+    )
+    .when("$regex2", (regex2, schema) =>
+      regex2
+        ? schema.matches(/^[А-ЯЁ][а-яё]* /, "Введите Фамилию Имя Отчество!")
+        : schema,
+    )
+    .when("$regex3", (regex3, schema) =>
+      regex3
+        ? schema.matches(
+            /^[А-ЯЁ][а-яё]* [А-ЯЁ][а-яё]* /,
+            "Введите Имя Отчество!",
+          )
+        : schema,
+    )
+    .when("$regex4", (regex4, schema) =>
+      regex4
+        ? schema.matches(
+            /^[А-ЯЁ][а-яё]* [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+/,
+            "Введите Отчество!",
+          )
+        : schema,
+    )
+    .required("* Поле обязательное для заполнения!"),
 
   email: yup
     .string()
@@ -18,41 +41,9 @@ export const schemaYup = yup.object().shape({
     .required("* Поле обязательное для заполнения!")
     .min(8, "Пароль должен иметь не менее 8 символов!")
     .max(32, "Пароль не может иметь более 32 символов!"),
+
+  confirmPassword: yup
+    .string()
+    .required("* Поле обязательное для заполнения!")
+    .oneOf([yup.ref("password"), ""], "Пароли должны совпадать!"),
 })
-
-export const emailRules = {
-  required: "Поле обязательное для заполнения!",
-  pattern: {
-    value:
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    message: "Электронная почта имеет невалидное значение!",
-  },
-}
-
-export const passwordRules = {
-  required: "Поле обязательное для заполнения!",
-  pattern: {
-    value: /^[-+~*_.:!?#$%&(){}<>\\/|'A-ZА-Я0-9]{6,20}$/i,
-    message: "Пароль имеет невалидное значение!",
-  },
-  minLength: {
-    value: 6,
-    message: "Пароль короче 6 символов!",
-  },
-  maxLength: {
-    value: 20,
-    message: "Пароль длиннее 20 символов!",
-  },
-}
-
-export const nameFieldRules = {
-  required: "Поле обязательное для заполнения!",
-  pattern: {
-    value: /[А-Я]{2,20}/i,
-    message: "Введите ваше имя на русском языке!",
-  },
-}
-
-export const notErrorsRules = {
-  required: "",
-}

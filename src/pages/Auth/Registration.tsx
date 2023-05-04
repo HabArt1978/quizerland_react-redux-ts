@@ -1,43 +1,28 @@
+import { Link } from "react-router-dom"
+import { FC } from "react"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+
 import Container from "@mui/material/Container"
-import { SxProps, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import HowToRegIcon from "@mui/icons-material/HowToReg"
-
 import theme from "../../mui-theme"
-import { Link } from "react-router-dom"
-import { FC } from "react"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import {
-  emailRules,
-  passwordRules,
-  nameFieldRules,
-  notErrorsRules,
-} from "./authValidation"
 
-const errorStyles: SxProps = {
-  mb: "2rem",
-  input: { color: "#f5f5f5" },
-  "& .Mui-error": {
-    color: theme.palette.error.main,
-  },
-  "& .MuiFormHelperText-root": {
-    color: theme.palette.error.main,
-  },
-}
+import { errorStyles } from "./styles"
 
-type RegisterInputType = {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+import { schemaYup } from "./authValidation"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+type FormData = yup.InferType<typeof schemaYup>
 
 type InputField = {
-  inputName: keyof RegisterInputType
+  inputName: keyof FormData
   label: string
+  placeholder: string
   required: boolean
   type: string
 }
@@ -45,55 +30,40 @@ const inputFields: InputField[] = [
   {
     inputName: "name",
     label: "Полное имя",
+    placeholder: "Фамилия Имя Отчество",
     type: "text",
     required: true,
   },
   {
     inputName: "email",
     label: "Электронная почта",
+    placeholder: "test@test.ru",
     type: "email",
     required: true,
   },
   {
     inputName: "password",
     label: "Пароль",
+    placeholder: "Не менее 8 символов и не более 32",
     type: "password",
     required: true,
   },
   {
     inputName: "confirmPassword",
     label: "Подтвердите пароль",
+    placeholder: "Повторите пароль",
     type: "password",
     required: true,
   },
 ]
-
-const getInputRules = (
-  name: keyof RegisterInputType,
-  watchValue: string = "",
-) => {
-  const rules = {
-    name: () => nameFieldRules,
-    email: () => emailRules,
-    password: () => passwordRules,
-    confirmPassword: (passwordValue: string) => ({
-      required: "Поле обязательное для заполнения!",
-      validate: (value: string) =>
-        value === passwordValue || "Пароли не совпадают!",
-    }),
-  }
-
-  return rules[name](watchValue) ?? notErrorsRules
-}
 
 const RegistrationPage: FC = () => {
   const {
     handleSubmit,
     reset,
     control,
-    watch,
     formState: { isDirty, isValid },
-  } = useForm<RegisterInputType>({
+  } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
       name: "",
@@ -101,16 +71,12 @@ const RegistrationPage: FC = () => {
       password: "",
       confirmPassword: "",
     },
+    resolver: yupResolver(schemaYup),
   })
 
-  const onSubmit: SubmitHandler<RegisterInputType> = data => {
+  const onSubmit: SubmitHandler<FormData> = data => {
     console.log(data)
     reset()
-  }
-
-  const password = watch("password", "")
-  const watchValuesMap: { [key in keyof RegisterInputType]?: string } = {
-    confirmPassword: password,
   }
 
   return (
@@ -143,39 +109,40 @@ const RegistrationPage: FC = () => {
             Регистрация
           </Typography>
 
-          {inputFields.map(({ inputName, label, required, type }, index) => (
-            <Controller
-              key={label + index}
-              control={control}
-              name={inputName}
-              rules={getInputRules(inputName, watchValuesMap[inputName])}
-              render={({
-                field: { value, onChange },
-                fieldState: { error },
-              }) => (
-                <Box
-                  sx={{
-                    maxWidth: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <TextField
-                    fullWidth
-                    label={label}
-                    type={type ?? "text"}
-                    value={value}
-                    onChange={event => onChange(event)}
-                    required={required}
-                    variant="standard"
-                    error={!!error}
-                    helperText={error?.message}
-                    sx={errorStyles}
-                  />
-                </Box>
-              )}
-            />
-          ))}
+          {inputFields.map(
+            ({ inputName, label, required, type, placeholder }, index) => (
+              <Controller
+                key={label + index}
+                control={control}
+                name={inputName}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <Box
+                    sx={{
+                      maxWidth: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      label={label}
+                      type={type}
+                      onChange={event => onChange(event)}
+                      required={required}
+                      placeholder={placeholder}
+                      variant="standard"
+                      error={!!error}
+                      helperText={error?.message}
+                      sx={errorStyles}
+                    />
+                  </Box>
+                )}
+              />
+            ),
+          )}
 
           <Typography
             variant="body2"

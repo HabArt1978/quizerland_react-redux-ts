@@ -14,19 +14,19 @@ import { Link } from "react-router-dom"
 import { menuToggle } from "../../../store/navigation/actions"
 import { useAppDispatch } from "../../../store/hooks"
 
-type Link = {
+type LinkMenu = {
   to: string
   label: string
   name: string
 }
 
-const links: Link[] = [
+const links: LinkMenu[] = [
   { to: "/quizes", label: "Список тестов", name: "quizes" },
   { to: "/create-quiz", label: "Создать тест", name: "create-quiz" },
   { to: "/auth", label: "Авторизация", name: "auth" },
 ]
 
-const setIconLink = (link: Link) => {
+const setIconLink = (link: LinkMenu) => {
   if (link.name === "quizes") {
     return (
       <ListItemIcon style={{ color: "mediumpurple" }}>

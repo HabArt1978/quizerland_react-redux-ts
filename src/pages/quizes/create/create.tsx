@@ -1,6 +1,8 @@
 import { FC } from "react"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+
 import Container from "@mui/material/Container"
-import { FormHelperText, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
@@ -11,52 +13,48 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 import theme from "../../../mui-theme"
-import { textFieldRules } from "./createValidation"
+import QuestionsScrollableTabs from "./QuestionsScrollableTabs"
+
 import {
   questionFieldStyle,
   answersFieldStyle,
   selectFieldStyle,
 } from "./style"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
 
-type CreateInputType = {
-  question: string
-  answer1: string
-  answer2: string
-  answer3: string
-  answer4: string
-  answer5: string
-  select: string
-}
+import { schemaYup } from "./createValidation"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+type FormData = yup.InferType<typeof schemaYup>
 
 type AnswerField = {
-  inputName: keyof CreateInputType
+  inputName: keyof FormData | `answers.${number}`
   label: string
   id: number
 }
 const answerFields: AnswerField[] = [
   {
-    inputName: "answer1",
+    inputName: "answers.0",
     label: "1-й вариант ответа",
     id: 1,
   },
   {
-    inputName: "answer2",
+    inputName: "answers.1",
     label: "2-й вариант ответа",
     id: 2,
   },
   {
-    inputName: "answer3",
+    inputName: "answers.2",
     label: "3-й вариант ответа",
     id: 3,
   },
   {
-    inputName: "answer4",
+    inputName: "answers.3",
     label: "4-й вариант ответа",
     id: 4,
   },
   {
-    inputName: "answer5",
+    inputName: "answers.4",
     label: "5-й вариант ответа",
     id: 5,
   },
@@ -68,20 +66,17 @@ const CreateQuiz: FC = () => {
     reset,
     control,
     formState: { isDirty, isValid },
-  } = useForm<CreateInputType>({
+  } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
       question: "",
-      answer1: "",
-      answer2: "",
-      answer3: "",
-      answer4: "",
-      answer5: "",
+      answers: ["", "", "", "", ""],
       select: "",
     },
+    resolver: yupResolver(schemaYup),
   })
 
-  const onSubmit: SubmitHandler<CreateInputType> = data => {
+  const onSubmit: SubmitHandler<FormData> = data => {
     console.log(data)
     reset()
   }
@@ -92,6 +87,8 @@ const CreateQuiz: FC = () => {
         backgroundColor: `rgb(106,196,221)`,
         backgroundImage: `linear-gradient(0deg, rgba(22,22,41,1) 0%, rgba(47,103,102,1) 35%, rgba(106,196,221,1) 100%)`,
         height: "100vh",
+        // backgroundImage: `url(${svgBackground})`,
+        // height: "100vh",
       }}
     >
       <CssBaseline />
@@ -102,8 +99,7 @@ const CreateQuiz: FC = () => {
             display: "flex",
             flexDirection: "column",
             textAlign: "center",
-            mb: "2rem",
-            pt: "7rem",
+            pt: "4rem",
           }}
         >
           <Typography
@@ -111,15 +107,16 @@ const CreateQuiz: FC = () => {
             component="h1"
             color={theme.palette.primary.contrastText}
             gutterBottom
-            sx={{ pl: "0.5rem", mb: "4rem" }}
+            sx={{ pl: "0.5rem", mb: "1rem" }}
           >
             Создание теста
           </Typography>
 
+          <QuestionsScrollableTabs />
+
           <Controller
             control={control}
             name="question"
-            rules={textFieldRules}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <TextField
                 fullWidth
@@ -142,7 +139,6 @@ const CreateQuiz: FC = () => {
                 key={id}
                 control={control}
                 name={inputName}
-                rules={textFieldRules}
                 render={({
                   field: { value, onChange },
                   fieldState: { error },
@@ -168,8 +164,7 @@ const CreateQuiz: FC = () => {
           <Controller
             control={control}
             name="select"
-            rules={{ required: "Поле обязательное для заполнения!" }}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
+            render={({ field: { value, onChange } }) => (
               <div>
                 <FormControl sx={selectFieldStyle}>
                   <InputLabel id="select-label">
@@ -195,7 +190,13 @@ const CreateQuiz: FC = () => {
                       </MenuItem>
                     ))}
                   </Select>
-                  <FormHelperText>{error?.message}</FormHelperText>
+                  {/* {!value && (
+                    <FormHelperText
+                      sx={{ color: theme.palette.secondary.main }}
+                    >
+                      * Поле обязательное для заполнения!
+                    </FormHelperText>
+                  )} */}
                 </FormControl>
               </div>
             )}
@@ -205,7 +206,7 @@ const CreateQuiz: FC = () => {
             variant="body2"
             component="div"
             color={theme.palette.error.main}
-            sx={{ pl: "0.5rem", mb: "2rem" }}
+            sx={{ pl: "0.5rem", mb: "1rem" }}
           >
             {!isDirty && !isValid && "Заполниете поля для создания теста"}
           </Typography>

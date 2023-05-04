@@ -9,12 +9,12 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
+import theme from "../../mui-theme"
 
 import { FC, useState } from "react"
 import { Link } from "react-router-dom"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 
-import theme from "../../mui-theme"
 import { errorStyles } from "./styles"
 
 import { schemaYup } from "./authValidation"
@@ -24,6 +24,9 @@ import * as yup from "yup"
 type FormData = yup.InferType<typeof schemaYup>
 
 const AuthPage: FC = () => {
+  const [showPassword, setShowPassword] = useState(false)
+  const handleClickShowPassword = () => setShowPassword(show => !show)
+
   const {
     handleSubmit,
     reset,
@@ -39,9 +42,6 @@ const AuthPage: FC = () => {
     console.log(data)
     reset()
   }
-
-  const [showPassword, setShowPassword] = useState(false)
-  const handleClickShowPassword = () => setShowPassword(show => !show)
 
   return (
     <div
@@ -89,6 +89,7 @@ const AuthPage: FC = () => {
                 <TextField
                   fullWidth
                   label="Электронная почта"
+                  placeholder="test@test.ru"
                   type="email"
                   id="emailID"
                   required
@@ -118,10 +119,11 @@ const AuthPage: FC = () => {
                 <TextField
                   fullWidth
                   label="Пароль"
+                  placeholder="Ваш пароль для входа"
                   type={showPassword ? "text" : "password"}
                   value={value}
                   onChange={event => onChange(event)}
-                  id="standard-password-input"
+                  id="passwordID"
                   autoComplete="current-password"
                   required
                   error={!!error}
