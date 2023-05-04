@@ -1,7 +1,7 @@
 import theme from "../../../mui-theme"
 
 export const questionFieldStyle = {
-  pb: "2rem",
+  pb: "1rem",
   // цвет текста input
   input: { color: `${theme.palette.info.contrastText}` },
   // цвет label по умолчанию
@@ -44,7 +44,8 @@ export const answersFieldStyle = {
 export const selectFieldStyle = {
   minWidth: 270,
   mt: "1rem",
-  mb: "2rem",
+  mb: "1rem",
+
   "& .MuiInputLabel-root": {
     color: theme.palette.info.contrastText,
   },
