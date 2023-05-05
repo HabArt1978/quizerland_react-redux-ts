@@ -41,10 +41,9 @@ export default function QuestionsScrollableTabs() {
         <Tab label="Item Five" />
         <Tab label="Item Six" />
         <Tab label="Item Seven" />
-
-        {item === 0 && <CreateQuizCard />}
-        {item === 1 && <CreateQuestion />}
       </Tabs>
+      {item === 0 && <CreateQuizCard />}
+      {item === 1 && <CreateQuestion />}
     </Box>
   )
 }
