@@ -2,12 +2,13 @@ import { Routes, Route } from "react-router-dom"
 
 import QuizesPage from "./pages/quizes/index"
 import ActiveQuizPage from "./pages/quizes/_id"
-import CreateQuizPage from "./pages/quizes/create/create"
+import CreateQuizPage from "./pages/quizes/create"
 import AuthPage from "./pages/auth"
 import RedirectPage from "./pages/redirect"
 import NotFoundPage from "./pages/404/notFound"
-import MenuToggle from "./components/Navigation/MenuToggle"
 import RegistrationPage from "./pages/auth/registration"
+import MenuToggle from "./components/Navigation/MenuToggle"
+
 import "./index.css"
 
 function App() {
