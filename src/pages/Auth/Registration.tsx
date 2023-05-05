@@ -148,7 +148,7 @@ const RegistrationPage: FC = () => {
             variant="body2"
             component="div"
             color={theme.palette.error.main}
-            sx={{ pl: "0.5rem", mb: "2rem" }}
+            sx={{ mb: "2rem" }}
           >
             {!isDirty && !isValid && "Заполниете поля для регистрации"}
           </Typography>

@@ -1,6 +1,6 @@
-import theme from "../../../mui-theme"
+import theme from "../../mui-theme"
 
-export const questionFieldStyle = {
+export const textFieldStyle = {
   pb: "1rem",
   // цвет текста input
   input: { color: `${theme.palette.info.contrastText}` },
