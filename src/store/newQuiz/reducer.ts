@@ -17,19 +17,13 @@ const newQuizReducer: Reducer<NewQuiz, NewQuizAction> = (
         description: description ?? "",
       }
     }
+
     case "SET_QUIZ_QUESTION": {
       const { index: newIndex, question: newQuestion } = action.payload
 
-      const questions = state.questions.map((question, index) => {
-        if (index === newIndex) {
-          question = { ...question }
-          question.text = newQuestion.text
-          question.correctAnswerIndex = newQuestion.correctAnswerIndex
-          question.answers = [...newQuestion.answers]
-        }
-
-        return question
-      })
+      const questions = state.questions.map((question, index) =>
+        index === newIndex ? newQuestion : question,
+      )
 
       return {
         ...state,
