@@ -1,5 +1,6 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { useAppSelector, useAppDispatch } from "../../store/hooks"
 
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
@@ -18,6 +19,8 @@ import { textFieldStyle, answersFieldStyle, selectFieldStyle } from "./style"
 import { schemaYupToQuestion } from "./validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { setQuizQuestion } from "../../store/newQuiz/actions"
+import { NewQuestion } from "../../store/newQuiz/types"
 
 type FormData = yup.InferType<typeof schemaYupToQuestion>
 
@@ -54,18 +57,39 @@ const answerFields: AnswerField[] = [
   },
 ]
 
-const CreateQuestion: FC = () => {
+const formToQuestion = (form: any) => {
+  const question: NewQuestion = {
+    text: form.text ?? "",
+    correctAnswerIndex: form.correctAnswerIndex ?? 0,
+    answers: form.answers?.map((v: any) => v ?? "") ?? [],
+  }
+
+  return question
+}
+
+type CreateQuestionProps = {
+  questionIndex: number
+}
+const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
+  const dispatch = useAppDispatch()
+  const question = useAppSelector(
+    state => state.newQuizState.questions[questionIndex],
+  )
+
+  const answers = question.answers.map(answer => answer)
+
   const {
     handleSubmit,
+    watch,
     reset,
     control,
     formState: { isDirty, isValid },
   } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
-      question: "",
-      answers: ["", "", "", "", ""],
-      select: "",
+      text: question.text,
+      correctAnswerIndex: question.correctAnswerIndex,
+      answers: answers,
     },
     resolver: yupResolver(schemaYupToQuestion),
   })
@@ -75,11 +99,24 @@ const CreateQuestion: FC = () => {
     reset()
   }
 
+  useEffect(() => {
+    const subscription = watch(value => {
+      dispatch(
+        setQuizQuestion({
+          index: questionIndex,
+          question: formToQuestion(value),
+        }),
+      )
+    })
+
+    return () => subscription.unsubscribe()
+  }, [watch])
+
   return (
     <div style={{ marginTop: "2rem" }}>
       <Controller
         control={control}
-        name="question"
+        name="text"
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <TextField
             fullWidth
@@ -123,7 +160,7 @@ const CreateQuestion: FC = () => {
 
       <Controller
         control={control}
-        name="select"
+        name="correctAnswerIndex"
         render={({ field: { value, onChange } }) => (
           <div>
             <FormControl sx={selectFieldStyle}>
@@ -141,10 +178,10 @@ const CreateQuestion: FC = () => {
                   color: theme.palette.primary.contrastText,
                 }}
               >
-                {answerFields.map(field => (
+                {answerFields.map((field, index) => (
                   <MenuItem
                     key={field.id}
-                    value={field.label}
+                    value={index}
                   >
                     {field.label}
                   </MenuItem>

@@ -9,7 +9,7 @@ const answerFieldYupRules = yup
     "Минимум 2 символа, с заглавной буквы или цифры!",
   )
 export const schemaYupToQuestion = yup.object().shape({
-  question: yup
+  text: yup
     .string()
     .required("* Поле обязательное для заполнения!")
     .max(79, "Вопрос не может иметь более 80 символов!")
@@ -18,13 +18,15 @@ export const schemaYupToQuestion = yup.object().shape({
       "Минимум 10 символов, с заглавной буквы или цифры!",
     ),
 
-  answers: yup.array().of(answerFieldYupRules),
+  correctAnswerIndex: yup
+    .number()
+    .required("* Поле обязательное для заполнения!"),
 
-  select: yup.string(),
+  answers: yup.array().of(answerFieldYupRules),
 })
 
 export const schemaYupToAnnotation = yup.object().shape({
-  testName: yup
+  title: yup
     .string()
     .required("* Поле обязательное для заполнения!")
     .max(39, "Название теста не может иметь более 40 символов!")
@@ -33,7 +35,7 @@ export const schemaYupToAnnotation = yup.object().shape({
       "Минимум 10 символов, с заглавной буквы или цифры!",
     ),
 
-  annotation: yup
+  description: yup
     .string()
     .required("* Поле обязательное для заполнения!")
     .max(370, "Вопрос не может иметь более 370 символов!")
