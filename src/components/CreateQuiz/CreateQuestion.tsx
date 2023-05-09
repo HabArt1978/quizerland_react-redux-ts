@@ -1,5 +1,6 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { useAppSelector, useAppDispatch } from "../../store/hooks"
 
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
@@ -18,54 +19,42 @@ import { textFieldStyle, answersFieldStyle, selectFieldStyle } from "./style"
 import { schemaYupToQuestion } from "./validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { setQuizQuestion } from "../../store/newQuiz/actions"
+import { NewQuestion } from "../../store/newQuiz/types"
 
 type FormData = yup.InferType<typeof schemaYupToQuestion>
 
-type AnswerField = {
-  inputName: keyof FormData | `answers.${number}`
-  label: string
-  id: number
-}
-const answerFields: AnswerField[] = [
-  {
-    inputName: "answers.0",
-    label: "1-й вариант ответа",
-    id: 1,
-  },
-  {
-    inputName: "answers.1",
-    label: "2-й вариант ответа",
-    id: 2,
-  },
-  {
-    inputName: "answers.2",
-    label: "3-й вариант ответа",
-    id: 3,
-  },
-  {
-    inputName: "answers.3",
-    label: "4-й вариант ответа",
-    id: 4,
-  },
-  {
-    inputName: "answers.4",
-    label: "5-й вариант ответа",
-    id: 5,
-  },
-]
+const formToQuestion = (form: any) => {
+  const question: NewQuestion = {
+    text: form.text ?? "",
+    correctAnswerIndex: form.correctAnswerIndex ?? 0,
+    answers: form.answers?.map((v: any) => v ?? "") ?? [],
+  }
 
-const CreateQuestion: FC = () => {
+  return question
+}
+
+type CreateQuestionProps = {
+  questionIndex: number
+}
+const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
+  const dispatch = useAppDispatch()
+  const question = useAppSelector(
+    state => state.newQuizState.questions[questionIndex],
+  )
+
   const {
     handleSubmit,
+    watch,
     reset,
     control,
     formState: { isDirty, isValid },
   } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
-      question: "",
-      answers: ["", "", "", "", ""],
-      select: "",
+      text: question.text,
+      correctAnswerIndex: question.correctAnswerIndex,
+      answers: question.answers,
     },
     resolver: yupResolver(schemaYupToQuestion),
   })
@@ -75,11 +64,24 @@ const CreateQuestion: FC = () => {
     reset()
   }
 
+  useEffect(() => {
+    const subscription = watch(value => {
+      dispatch(
+        setQuizQuestion({
+          index: questionIndex,
+          question: formToQuestion(value),
+        }),
+      )
+    })
+
+    return () => subscription.unsubscribe()
+  }, [watch, dispatch, questionIndex])
+
   return (
     <div style={{ marginTop: "2rem" }}>
       <Controller
         control={control}
-        name="question"
+        name="text"
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <TextField
             fullWidth
@@ -97,16 +99,16 @@ const CreateQuestion: FC = () => {
       />
 
       <Container>
-        {answerFields.map(({ inputName, label, id }) => (
+        {question.answers.map((_, index) => (
           <Controller
-            key={id}
+            key={index}
             control={control}
-            name={inputName}
+            name={`answers.${index}`}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <TextField
                 fullWidth
                 type="text"
-                label={label}
+                label={`${index + 1}-й вариант ответа`}
                 required
                 variant="filled"
                 value={value}
@@ -123,7 +125,7 @@ const CreateQuestion: FC = () => {
 
       <Controller
         control={control}
-        name="select"
+        name="correctAnswerIndex"
         render={({ field: { value, onChange } }) => (
           <div>
             <FormControl sx={selectFieldStyle}>
@@ -141,12 +143,12 @@ const CreateQuestion: FC = () => {
                   color: theme.palette.primary.contrastText,
                 }}
               >
-                {answerFields.map(field => (
+                {question.answers.map((_, index) => (
                   <MenuItem
-                    key={field.id}
-                    value={field.label}
+                    key={index}
+                    value={index}
                   >
-                    {field.label}
+                    {`${index + 1}-й вариант ответа`}
                   </MenuItem>
                 ))}
               </Select>
@@ -193,6 +195,8 @@ const CreateQuestion: FC = () => {
         </Button>
         <span style={{ width: "2rem" }}></span>
         <Button
+          type="submit"
+          onClick={handleSubmit(onSubmit)}
           fullWidth
           size="small"
           color="secondary"

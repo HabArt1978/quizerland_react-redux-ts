@@ -1,21 +1,26 @@
 import { useState } from "react"
-import Box from "@mui/material/Box"
+import { Box, Tab } from "@mui/material"
 import Tabs, { tabsClasses } from "@mui/material/Tabs"
-import Tab from "@mui/material/Tab"
 import CreateQuestion from "./CreateQuestion"
 import CreateQuizCard from "./CreateQuizCard"
 
+import { useAppSelector } from "../../store/hooks"
+
 export default function QuestionsScrollableTabs() {
-  const [item, setItem] = useState(0)
+  const newQuiz = useAppSelector(store => store.newQuizState)
+
+  const [questionItem, setQuestionItem] = useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setItem(newValue)
+    setQuestionItem(newValue)
   }
+
+  const addQuestion = () => {}
 
   return (
     <Box>
       <Tabs
-        value={item}
+        value={questionItem}
         onChange={handleChange}
         variant="scrollable"
         scrollButtons
@@ -27,23 +32,29 @@ export default function QuestionsScrollableTabs() {
         }}
       >
         <Tab
-          label="аннотация к тесту"
-          sx={{ fontWeight: "700" }}
-        />
-        <Tab
-          label="создать тест"
+          label="Описание теста"
           sx={{ fontWeight: "700" }}
         />
 
-        <Tab label="Item Two " />
-        <Tab label="Item Three" />
-        <Tab label="Item Four" />
-        <Tab label="Item Five" />
-        <Tab label="Item Six" />
-        <Tab label="Item Seven" />
+        {newQuiz.questions.map((question, index) => (
+          <Tab
+            key={question.text + index}
+            label={"Вопрос " + (index + 1)}
+          />
+        ))}
       </Tabs>
-      {item === 0 && <CreateQuizCard />}
-      {item === 1 && <CreateQuestion />}
+      {questionItem === 0 && <CreateQuizCard />}
+
+      {newQuiz.questions.map((_, index) => {
+        if (questionItem === index + 1) {
+          return (
+            <CreateQuestion
+              key={questionItem + index}
+              questionIndex={questionItem - 1}
+            />
+          )
+        }
+      })}
     </Box>
   )
 }
