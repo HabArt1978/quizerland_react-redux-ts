@@ -1,7 +1,5 @@
 import { FC, useEffect } from "react"
-import { FC, useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { useAppSelector, useAppDispatch } from "../../store/hooks"
 import { useAppSelector, useAppDispatch } from "../../store/hooks"
 
 import Container from "@mui/material/Container"
@@ -21,8 +19,7 @@ import { textFieldStyle, answersFieldStyle, selectFieldStyle } from "./style"
 import { schemaYupToQuestion } from "./validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { setQuizQuestion } from "../../store/newQuiz/actions"
-import { NewQuestion } from "../../store/newQuiz/types"
+
 import { setQuizQuestion } from "../../store/newQuiz/actions"
 import { NewQuestion } from "../../store/newQuiz/types"
 
@@ -86,7 +83,6 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
       <Controller
         control={control}
         name="text"
-        name="text"
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <TextField
             fullWidth
@@ -130,7 +126,6 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
 
       <Controller
         control={control}
-        name="correctAnswerIndex"
         name="correctAnswerIndex"
         render={({ field: { value, onChange } }) => (
           <div>
