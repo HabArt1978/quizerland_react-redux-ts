@@ -31,6 +31,38 @@ const newQuizReducer: Reducer<NewQuiz, NewQuizAction> = (
       }
     }
 
+    case "ADD_NEW_QUESTION": {
+      const questions = state.questions
+
+      const newQuestions = [...questions]
+
+      const newQuestion = {
+        text: "",
+        answers: ["", "", "", "", ""],
+        correctAnswerIndex: 0,
+      }
+
+      newQuestions.push(newQuestion)
+
+      return {
+        ...state,
+        questions: newQuestions,
+      }
+    }
+
+    case "DELETE_TAB_ACTION": {
+      const questions = state.questions
+
+      const newQuestions = [...questions].filter(
+        (_, index) => index !== action.payload.index,
+      )
+
+      return {
+        ...state,
+        questions: newQuestions,
+      }
+    }
+
     default: {
       return state
     }

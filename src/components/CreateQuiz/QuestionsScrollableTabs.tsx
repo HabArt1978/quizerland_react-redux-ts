@@ -1,13 +1,18 @@
 import { useState } from "react"
-import { Box, Tab } from "@mui/material"
-import Tabs, { tabsClasses } from "@mui/material/Tabs"
+import { useAppSelector, useAppDispatch } from "../../store/hooks"
+
 import CreateQuestion from "./CreateQuestion"
 import CreateQuizCard from "./CreateQuizCard"
+import { deleteTab } from "../../store/newQuiz/actions"
 
-import { useAppSelector } from "../../store/hooks"
+import { Box, IconButton, Tab } from "@mui/material"
+import Tabs, { tabsClasses } from "@mui/material/Tabs"
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import theme from "../../mui-theme"
 
 export default function QuestionsScrollableTabs() {
   const newQuiz = useAppSelector(store => store.newQuizState)
+  const dispatch = useAppDispatch()
 
   const [questionItem, setQuestionItem] = useState(0)
 
@@ -15,7 +20,14 @@ export default function QuestionsScrollableTabs() {
     setQuestionItem(newValue)
   }
 
-  const addQuestion = () => {}
+  const closeTab = (index: number) => {
+    const onLastTab = newQuiz.questions.length === questionItem
+    if (onLastTab) {
+      setQuestionItem(questionItem - 1)
+    }
+
+    dispatch(deleteTab({ index }))
+  }
 
   return (
     <Box>
@@ -39,10 +51,39 @@ export default function QuestionsScrollableTabs() {
         {newQuiz.questions.map((question, index) => (
           <Tab
             key={question.text + index}
-            label={"Вопрос " + (index + 1)}
+            label={
+              <span
+                style={{
+                  paddingTop: "0px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {`Вопрос №${index + 1}`}
+                {index > 0 && (
+                  <IconButton
+                    size="small"
+                    component="span"
+                    sx={{ ml: "0.3rem", p: "0" }}
+                    onClick={e => {
+                      e.stopPropagation()
+                      closeTab(index)
+                    }}
+                  >
+                    <DeleteOutlineIcon
+                      viewBox="0 0 24 24"
+                      sx={{
+                        "&:hover": { color: theme.palette.secondary.dark },
+                      }}
+                    />
+                  </IconButton>
+                )}
+              </span>
+            }
           />
         ))}
       </Tabs>
+
       {questionItem === 0 && <CreateQuizCard />}
 
       {newQuiz.questions.map((_, index) => {
@@ -54,6 +95,7 @@ export default function QuestionsScrollableTabs() {
             />
           )
         }
+        return []
       })}
     </Box>
   )

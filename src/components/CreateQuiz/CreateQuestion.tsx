@@ -2,6 +2,13 @@ import { FC, useEffect } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useAppSelector, useAppDispatch } from "../../store/hooks"
 
+import { schemaYupToQuestion } from "./validation"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+import { setQuizQuestion, addNewQuestion } from "../../store/newQuiz/actions"
+import { NewQuestion } from "../../store/newQuiz/types"
+
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
 import TextField from "@mui/material/TextField"
@@ -15,13 +22,6 @@ import Select from "@mui/material/Select"
 import theme from "../../mui-theme"
 
 import { textFieldStyle, answersFieldStyle, selectFieldStyle } from "./style"
-
-import { schemaYupToQuestion } from "./validation"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-
-import { setQuizQuestion } from "../../store/newQuiz/actions"
-import { NewQuestion } from "../../store/newQuiz/types"
 
 type FormData = yup.InferType<typeof schemaYupToQuestion>
 
@@ -170,12 +170,11 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
       <span style={{ display: "flex", justifyContent: "space-between" }}>
         <Button
           type="submit"
-          onClick={handleSubmit(onSubmit)}
+          onClick={() => dispatch(addNewQuestion())}
           fullWidth
           size="small"
           color="primary"
           variant="contained"
-          disabled={!isDirty || !isValid}
           sx={{
             py: 1.5,
             bgcolor: theme.palette.primary.dark,
