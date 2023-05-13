@@ -5,9 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
 import theme from "../../mui-theme"
-import { textFieldStyle } from "./style"
+import { textFieldStyle } from "./helper/style"
 
-import { schemaYupToAnnotation } from "./validation"
+import { schemaYupToAnnotation } from "./helper/validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 

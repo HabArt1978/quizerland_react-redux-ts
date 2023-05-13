@@ -1,27 +1,29 @@
 import { FC, useEffect } from "react"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { useAppSelector, useAppDispatch } from "../../store/hooks"
 
-import { schemaYupToQuestion } from "./validation"
+import { schemaYupToQuestion } from "./helper/validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
-import { setQuizQuestion, addNewQuestion } from "../../store/newQuiz/actions"
+import { setQuizQuestion } from "../../store/newQuiz/actions"
 import { NewQuestion } from "../../store/newQuiz/types"
 
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
 import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
-import LibraryAddIcon from "@mui/icons-material/LibraryAdd"
-import SaveAsIcon from "@mui/icons-material/SaveAs"
+
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 import theme from "../../mui-theme"
 
-import { textFieldStyle, answersFieldStyle, selectFieldStyle } from "./style"
+import {
+  textFieldStyle,
+  answersFieldStyle,
+  selectFieldStyle,
+} from "./helper/style"
 
 type FormData = yup.InferType<typeof schemaYupToQuestion>
 
@@ -44,26 +46,17 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
     state => state.newQuizState.questions[questionIndex],
   )
 
-  const {
-    handleSubmit,
-    watch,
-    reset,
-    control,
-    formState: { isDirty, isValid },
-  } = useForm<FormData>({
+  console.log(question)
+
+  const { watch, reset, control } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
       text: question.text,
-      correctAnswerIndex: question.correctAnswerIndex,
+      correctAnswerIndex: -1,
       answers: question.answers,
     },
     resolver: yupResolver(schemaYupToQuestion),
   })
-
-  const onSubmit: SubmitHandler<FormData> = data => {
-    console.log(data)
-    reset()
-  }
 
   useEffect(() => {
     const subscription = watch(value => {
@@ -127,13 +120,14 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
       <Controller
         control={control}
         name="correctAnswerIndex"
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { value, onChange }, fieldState: { isDirty } }) => (
           <div>
             <FormControl sx={selectFieldStyle}>
               <InputLabel id="select-label">
                 Выберите правильный ответ
               </InputLabel>
               <Select
+                displayEmpty
                 labelId="select-label"
                 id="selectID"
                 label="Выберите правильный ответ"
@@ -144,6 +138,14 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
                   color: theme.palette.primary.contrastText,
                 }}
               >
+                <MenuItem
+                  value={-1}
+                  disabled
+                >
+                  <em>
+                    <small>Сделайте правильный выбор!</small>
+                  </em>
+                </MenuItem>
                 {question.answers.map((_, index) => (
                   <MenuItem
                     key={index}
@@ -153,67 +155,18 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
                   </MenuItem>
                 ))}
               </Select>
+              <Typography
+                variant="body2"
+                component="div"
+                color={theme.palette.error.main}
+                sx={{ mb: "1rem" }}
+              >
+                {!isDirty && "Не забудьте выбрать ответ!"}
+              </Typography>
             </FormControl>
           </div>
         )}
       />
-
-      <Typography
-        variant="body2"
-        component="div"
-        color={theme.palette.error.main}
-        sx={{ mb: "1rem" }}
-      >
-        {!isDirty && !isValid && "Заполниете поля для создания теста"}
-      </Typography>
-
-      <span style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button
-          type="submit"
-          onClick={() => dispatch(addNewQuestion())}
-          fullWidth
-          size="small"
-          color="primary"
-          variant="contained"
-          sx={{
-            py: 1.5,
-            bgcolor: theme.palette.primary.dark,
-            " :disabled": {
-              color: theme.palette.error.contrastText,
-            },
-          }}
-          startIcon={
-            <LibraryAddIcon
-              sx={{
-                width: "1.5rem",
-                height: "1.5rem",
-              }}
-            />
-          }
-        >
-          Добавить вопрос
-        </Button>
-        <span style={{ width: "2rem" }}></span>
-        <Button
-          type="submit"
-          onClick={handleSubmit(onSubmit)}
-          fullWidth
-          size="small"
-          color="secondary"
-          variant="contained"
-          sx={{ py: 1.5, bgcolor: theme.palette.secondary.dark }}
-          startIcon={
-            <SaveAsIcon
-              sx={{
-                width: "1.5rem",
-                height: "1.5rem",
-              }}
-            />
-          }
-        >
-          Создать тест
-        </Button>
-      </span>
     </div>
   )
 }

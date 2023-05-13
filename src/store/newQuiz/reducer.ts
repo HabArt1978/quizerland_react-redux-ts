@@ -50,16 +50,22 @@ const newQuizReducer: Reducer<NewQuiz, NewQuizAction> = (
       }
     }
 
-    case "DELETE_TAB_ACTION": {
-      const questions = state.questions
+    case "REMOVE_QUESTION": {
+      const questions = [...state.questions]
 
-      const newQuestions = [...questions].filter(
+      const newQuestions = questions.filter(
         (_, index) => index !== action.payload.index,
       )
 
       return {
         ...state,
         questions: newQuestions,
+      }
+    }
+
+    case "RESET_NEW_QUIZ_STATE_ACTION": {
+      return {
+        ...newQuizInitialState,
       }
     }
 

@@ -5,7 +5,8 @@ export type NewQuizAction =
   | SetQuizAnnotationAction
   | SetQuizQuestionAction
   | AddNewQuestionAction
-  | DeleteTabAction
+  | RemoveQuestionAction
+  | ResetNewQuizAction
 
 interface SetQuizAnnotationAction extends Action {
   type: "SET_QUIZ_ANNOTATION"
@@ -48,17 +49,26 @@ export const addNewQuestion = (): AddNewQuestionAction => {
   }
 }
 
-interface DeleteTabAction extends Action {
-  type: "DELETE_TAB_ACTION"
+interface RemoveQuestionAction extends Action {
+  type: "REMOVE_QUESTION"
   payload: {
     index: number
   }
 }
-export const deleteTab = (
-  payload: DeleteTabAction["payload"],
-): DeleteTabAction => {
+export const removeQuestion = (
+  payload: RemoveQuestionAction["payload"],
+): RemoveQuestionAction => {
   return {
-    type: "DELETE_TAB_ACTION",
+    type: "REMOVE_QUESTION",
     payload,
+  }
+}
+
+interface ResetNewQuizAction extends Action {
+  type: "RESET_NEW_QUIZ_STATE_ACTION"
+}
+export const resetNewQuizState = (): ResetNewQuizAction => {
+  return {
+    type: "RESET_NEW_QUIZ_STATE_ACTION",
   }
 }

@@ -2,6 +2,7 @@ import { FC } from "react"
 import theme from "../../mui-theme"
 import QuestionsScrollableTabs from "../../components/CreateQuiz/QuestionsScrollableTabs"
 import { Container, Typography } from "@mui/material"
+import { ButtonGroupToCreate } from "../../components/CreateQuiz/ButtonGroupToCreate"
 
 const CreateQuiz: FC = () => {
   return (
@@ -32,6 +33,7 @@ const CreateQuiz: FC = () => {
           </Typography>
 
           <QuestionsScrollableTabs />
+          <ButtonGroupToCreate />
         </Container>
       </Container>
     </div>

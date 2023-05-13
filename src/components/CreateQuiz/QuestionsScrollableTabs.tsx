@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../store/hooks"
 
 import CreateQuestion from "./CreateQuestion"
 import CreateQuizCard from "./CreateQuizCard"
-import { deleteTab } from "../../store/newQuiz/actions"
+import { removeQuestion } from "../../store/newQuiz/actions"
 
 import { Box, IconButton, Tab } from "@mui/material"
 import Tabs, { tabsClasses } from "@mui/material/Tabs"
@@ -26,7 +26,7 @@ export default function QuestionsScrollableTabs() {
       setQuestionItem(questionItem - 1)
     }
 
-    dispatch(deleteTab({ index }))
+    dispatch(removeQuestion({ index }))
   }
 
   return (

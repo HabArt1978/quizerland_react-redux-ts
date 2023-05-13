@@ -20,6 +20,7 @@ export const schemaYupToQuestion = yup.object().shape({
 
   correctAnswerIndex: yup
     .number()
+    .min(0)
     .required("* Поле обязательное для заполнения!"),
 
   answers: yup.array().of(answerFieldYupRules),
