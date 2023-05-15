@@ -1,10 +1,14 @@
-import { FC } from "react"
-import theme from "../../mui-theme"
-import QuestionsScrollableTabs from "../../components/CreateQuiz/QuestionsScrollableTabs"
-import { Container, Typography } from "@mui/material"
+import { FC, useState } from "react"
+
 import { ButtonGroupToCreate } from "../../components/CreateQuiz/ButtonGroupToCreate"
+import QuestionsScrollableTabs from "../../components/CreateQuiz/QuestionsScrollableTabs/QuestionsScrollableTabs"
+
+import { Container, Typography } from "@mui/material"
+import theme from "../../mui-theme"
 
 const CreateQuiz: FC = () => {
+  const [questionItem, setQuestionItem] = useState(0)
+
   return (
     <div
       style={{
@@ -32,8 +36,11 @@ const CreateQuiz: FC = () => {
             Создание теста
           </Typography>
 
-          <QuestionsScrollableTabs />
-          <ButtonGroupToCreate />
+          <QuestionsScrollableTabs
+            questionItem={questionItem}
+            setQuestionItem={setQuestionItem}
+          />
+          <ButtonGroupToCreate setQuestionItem={setQuestionItem} />
         </Container>
       </Container>
     </div>

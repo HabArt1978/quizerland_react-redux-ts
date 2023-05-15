@@ -1,3 +1,5 @@
+import { FC } from "react"
+
 import { useAppSelector, useAppDispatch } from "../../store/hooks"
 import { NewQuiz } from "../../store/newQuiz/types"
 
@@ -15,7 +17,13 @@ type AddendumNewQuiz = {
   isFinished: boolean
 }
 
-export const ButtonGroupToCreate = () => {
+interface setQuestionItemProps {
+  setQuestionItem: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const ButtonGroupToCreate: FC<setQuestionItemProps> = ({
+  setQuestionItem,
+}) => {
   const newQuizData = useAppSelector(({ newQuizState }) => newQuizState)
   const dispatch = useAppDispatch()
 
@@ -29,6 +37,10 @@ export const ButtonGroupToCreate = () => {
     }
 
     dispatch(resetNewQuizState())
+    setQuestionItem(1)
+    setTimeout(() => {
+      setQuestionItem(0)
+    })
 
     return console.log(аddendumNewQuiz)
   }
