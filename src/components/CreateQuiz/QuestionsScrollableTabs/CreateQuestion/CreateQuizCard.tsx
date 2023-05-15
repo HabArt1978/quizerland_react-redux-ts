@@ -1,17 +1,17 @@
 import { FC, useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks"
 
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
-import theme from "../../mui-theme"
-import { textFieldStyle } from "./helper/style"
+import theme from "../../../../mui-theme"
+import { textFieldStyle } from "../../style"
 
-import { schemaYupToAnnotation } from "./helper/validation"
+import { schemaYupToAnnotation } from "../../validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
-import { setQuizAnnotation } from "../../store/newQuiz/actions"
+import { setQuizAnnotation } from "../../../../store/newQuiz/actions"
 
 type FormData = yup.InferType<typeof schemaYupToAnnotation>
 

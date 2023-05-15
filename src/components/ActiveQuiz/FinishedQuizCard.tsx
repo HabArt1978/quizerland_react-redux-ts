@@ -40,7 +40,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
       navigate(`/quizes/${quiz.id}`)
       dispatch(resetCurrentQuestionId())
       dispatch(resetRightAttempt())
-    }, 1500)
+    }, 1000)
   }
 
   const toNextQuiz = () => {
@@ -49,7 +49,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
     setTimeout(() => {
       dispatch(setActiveQuiz(quiz.id + 1))
       navigate(`/quizes/${quiz.id + 1}`)
-    }, 1500)
+    }, 1000)
   }
 
   const rightAnswers = quiz.rightAttempt

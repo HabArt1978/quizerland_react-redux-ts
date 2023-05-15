@@ -4,14 +4,14 @@ import Button from "@mui/material/Button"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CancelIcon from "@mui/icons-material/Cancel"
 
-import theme from "../../mui-theme"
+import theme from "../../../../mui-theme"
 import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useState } from "react"
-import { Answer, Question, Quiz } from "../../store/quiz/types"
+import { Answer, Question, Quiz } from "../../../../store/quiz/types"
 
-import { toNextQuestion } from "../../store/quiz/actions"
-import { useAppDispatch } from "../../store/hooks"
-import { addRightAttempt } from "../../store/quiz/actions"
+import { toNextQuestion } from "../../../../store/quiz/actions"
+import { useAppDispatch } from "../../../../store/hooks"
+import { addRightAttempt } from "../../../../store/quiz/actions"
 
 type AnswersRadioGroupProps = {
   questionProp: Question

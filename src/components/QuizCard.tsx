@@ -58,7 +58,7 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
               flexShrink: "0",
             }}
           >
-            {quizProp.questions.length + "  вопросов"}
+            {`тест из ${quizProp.questions.length} вопросов`}
           </span>
 
           <Link

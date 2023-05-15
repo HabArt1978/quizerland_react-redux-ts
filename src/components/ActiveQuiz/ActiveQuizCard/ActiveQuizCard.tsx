@@ -1,9 +1,9 @@
 import { Card, CardContent, LinearProgress, Typography } from "@mui/material"
-import AnswersRadioGroup from "./AnswersRadioGroup"
-import theme from "../../mui-theme"
-import { useAppSelector } from "../../store/hooks"
-import { currentQuestionSelector } from "../../store/quiz/selectors"
-import { Quiz } from "../../store/quiz/types"
+import AnswersRadioGroup from "./AnswersRadioGroup/AnswersRadioGroup"
+import theme from "../../../mui-theme"
+import { useAppSelector } from "../../../store/hooks"
+import { currentQuestionSelector } from "../../../store/quiz/selectors"
+import { Quiz } from "../../../store/quiz/types"
 import { FC, useState } from "react"
 
 type ActiveQuizCardProps = {

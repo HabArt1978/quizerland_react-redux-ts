@@ -1,13 +1,13 @@
 import { FC, useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useAppSelector, useAppDispatch } from "../../store/hooks"
+import { useAppSelector, useAppDispatch } from "../../../../store/hooks"
 
-import { schemaYupToQuestion } from "./helper/validation"
+import { schemaYupToQuestion } from "../../validation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
-import { setQuizQuestion } from "../../store/newQuiz/actions"
-import { NewQuestion } from "../../store/newQuiz/types"
+import { setQuizQuestion } from "../../../../store/newQuiz/actions"
+import { NewQuestion } from "../../../../store/newQuiz/types"
 
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
@@ -17,13 +17,13 @@ import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
-import theme from "../../mui-theme"
+import theme from "../../../../mui-theme"
 
 import {
   textFieldStyle,
   answersFieldStyle,
   selectFieldStyle,
-} from "./helper/style"
+} from "../../style"
 
 type FormData = yup.InferType<typeof schemaYupToQuestion>
 
@@ -46,9 +46,7 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
     state => state.newQuizState.questions[questionIndex],
   )
 
-  console.log(question)
-
-  const { watch, reset, control } = useForm<FormData>({
+  const { watch, control } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
       text: question.text,

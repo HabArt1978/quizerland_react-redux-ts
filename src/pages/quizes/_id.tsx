@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../store/hooks"
 import { setActiveQuiz } from "../../store/quiz/actions"
 import { activeQuizSelector } from "../../store/quiz/selectors"
-import ActiveQuizCard from "../../components/ActiveQuiz/ActiveQuizCard"
+import ActiveQuizCard from "../../components/ActiveQuiz/ActiveQuizCard/ActiveQuizCard"
 import FinishedQuizCard from "../../components/ActiveQuiz/FinishedQuizCard"
 
 function ActiveQuiz() {
