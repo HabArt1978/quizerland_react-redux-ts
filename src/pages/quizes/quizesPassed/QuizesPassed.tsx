@@ -1,7 +1,8 @@
-import Container from "@mui/material/Container"
 import { BackToQuizesButton } from "../../../components/ActiveQuiz/BackToQuizesButton"
-import CssBaseline from "@mui/material/CssBaseline"
 import PassedSvg from "./svg"
+
+import Container from "@mui/material/Container"
+import CssBaseline from "@mui/material/CssBaseline"
 import Typography from "@mui/material/Typography"
 import Box from "@mui/material/Box"
 import theme from "../../../mui-theme"

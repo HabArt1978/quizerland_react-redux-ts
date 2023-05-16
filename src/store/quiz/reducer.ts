@@ -1,7 +1,7 @@
 import { Reducer } from "@reduxjs/toolkit"
-import { QuizAction } from "./actions"
 import { quizInitialState } from "./initialState"
 import { QuizState } from "./types"
+import { QuizAction } from "./actions"
 
 const quizReducer: Reducer<QuizState, QuizAction> = (
   state = quizInitialState,

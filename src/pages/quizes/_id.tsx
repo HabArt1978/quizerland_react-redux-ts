@@ -1,21 +1,25 @@
+import { useAppSelector } from "../../store/hooks"
+import { useAppDispatch } from "../../store/hooks"
+import { activeQuizSelector } from "../../store/quiz/selectors"
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+
+import { BackToQuizesButton } from "../../components/ActiveQuiz/BackToQuizesButton"
+import ActiveQuizCard from "../../components/ActiveQuiz/ActiveQuizCard/ActiveQuizCard"
+import FinishedQuizCard from "../../components/ActiveQuiz/FinishedQuizCard"
+
+import { setActiveQuiz } from "../../store/quiz/actions"
+
 import Container from "@mui/material/Container"
 import { Typography } from "@mui/material"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import CssBaseline from "@mui/material/CssBaseline"
 import theme from "../../mui-theme"
-import { BackToQuizesButton } from "../../components/ActiveQuiz/BackToQuizesButton"
-import { useAppSelector } from "../../store/hooks"
-import { useEffect } from "react"
-import { useParams } from "react-router-dom"
-import { useAppDispatch } from "../../store/hooks"
-import { setActiveQuiz } from "../../store/quiz/actions"
-import { activeQuizSelector } from "../../store/quiz/selectors"
-import ActiveQuizCard from "../../components/ActiveQuiz/ActiveQuizCard/ActiveQuizCard"
-import FinishedQuizCard from "../../components/ActiveQuiz/FinishedQuizCard"
 
 function ActiveQuiz() {
   const activeQuiz = useAppSelector(activeQuizSelector)
+
   const dispatch = useAppDispatch()
 
   const params = useParams()
@@ -56,7 +60,7 @@ function ActiveQuiz() {
                   gutterBottom
                   sx={{ pl: "0.5rem", mb: 0 }}
                 >
-                  Quiz not found!
+                  Викторина не найдена!
                 </Typography>
               </CardContent>
             </Card>

@@ -1,3 +1,7 @@
+import { FC, useState } from "react"
+import { Link } from "react-router-dom"
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
+
 import Container from "@mui/material/Container"
 import { IconButton, Typography } from "@mui/material"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
@@ -10,10 +14,6 @@ import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import theme from "../../mui-theme"
-
-import { FC, useState } from "react"
-import { Link } from "react-router-dom"
-import { useForm, SubmitHandler, Controller } from "react-hook-form"
 
 import { errorStyles } from "./styles"
 

@@ -1,11 +1,14 @@
+import { useAppDispatch } from "../../../store/hooks"
+import { useAppSelector } from "../../../store/hooks"
+
+import { menuToggle } from "../../../store/navigation/actions"
+
+import LinksList from "./LinksList"
+
 import IconButton from "@mui/material/IconButton"
 import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
-import LinksList from "./LinksList"
-import { menuToggle } from "../../../store/navigation/actions"
-import { useAppDispatch } from "../../../store/hooks"
-import { useAppSelector } from "../../../store/hooks"
 
 const MenuDrawer = () => {
   const { isOpen } = useAppSelector(({ navigationState }) => navigationState)
