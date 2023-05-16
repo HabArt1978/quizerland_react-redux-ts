@@ -1,3 +1,15 @@
+import { useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { useNavigate } from "react-router-dom"
+
+import {
+  resetCurrentQuestionId,
+  setActiveQuiz,
+  resetRightAttempt,
+} from "../../store/quiz/actions"
+
+import { Quiz } from "../../store/quiz/types"
+
 import Card from "@mui/material/Card"
 import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
@@ -13,21 +25,17 @@ import CancelIcon from "@mui/icons-material/Cancel"
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab"
 import RepeatIcon from "@mui/icons-material/Repeat"
 import LoadingButton from "@mui/lab/LoadingButton"
-import { useAppDispatch } from "../../store/hooks"
-import { useNavigate } from "react-router-dom"
-import {
-  resetCurrentQuestionId,
-  setActiveQuiz,
-  resetRightAttempt,
-} from "../../store/quiz/actions"
-import { useState } from "react"
-import { Quiz } from "../../store/quiz/types"
 
 type FinishedQuizCardProps = {
   quiz: Quiz
 }
 
 const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
+  const activeQuizID = useAppSelector(({ quizState }) => quizState.activeID)
+  const quizesLength = useAppSelector(
+    ({ quizState }) => quizState.quizes.length,
+  )
+
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -45,6 +53,13 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
 
   const toNextQuiz = () => {
     setIsLoading("next")
+
+    if (activeQuizID + 1 > quizesLength) {
+      setTimeout(() => {
+        navigate("/quizes-passed")
+      }, 1000)
+      return
+    }
 
     setTimeout(() => {
       dispatch(setActiveQuiz(quiz.id + 1))

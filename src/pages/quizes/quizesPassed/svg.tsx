@@ -2,7 +2,7 @@ function PassedSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 500 500"
+      viewBox="-50 0 600 600"
     >
       <g>
         <path

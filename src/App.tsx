@@ -7,6 +7,8 @@ import AuthPage from "./pages/auth"
 import RedirectPage from "./pages/redirect"
 import NotFoundPage from "./pages/404/notFound"
 import RegistrationPage from "./pages/auth/registration"
+import QuizesPassed from "./pages/quizes/quizesPassed/QuizesPassed"
+
 import MenuToggle from "./components/Navigation/MenuToggle"
 
 import "./index.css"
@@ -36,7 +38,10 @@ function App() {
           path="/create-quiz"
           element={<CreateQuizPage />}
         />
-
+        <Route
+          path="/quizes-passed"
+          element={<QuizesPassed />}
+        />
         <Route
           path="/"
           element={<RedirectPage />}
