@@ -1,7 +1,8 @@
+import useMediaQuery from "@mui/material/useMediaQuery"
+
 import Container from "@mui/material/Container"
 import { SxProps, Typography } from "@mui/material"
 import theme from "../mui-theme"
-import useMediaQuery from "@mui/material/useMediaQuery"
 
 function WelcomeText() {
   const isMobile = useMediaQuery("(max-width:745px)")

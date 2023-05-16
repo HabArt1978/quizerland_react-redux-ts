@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom"
+
 import { Button } from "@mui/material"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
-import { Link } from "react-router-dom"
 
 export function BackToQuizesButton() {
   return (

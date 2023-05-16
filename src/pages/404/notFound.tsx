@@ -1,7 +1,8 @@
-import Container from "@mui/material/Container"
 import { BackToQuizesButton } from "../../components/ActiveQuiz/BackToQuizesButton"
-import CssBaseline from "@mui/material/CssBaseline"
 import NotFoundSvg from "./svg"
+
+import Container from "@mui/material/Container"
+import CssBaseline from "@mui/material/CssBaseline"
 
 const NotFoundPage = () => {
   return (

@@ -1,8 +1,7 @@
 import { FC } from "react"
-
 import { useAppSelector, useAppDispatch } from "../../store/hooks"
-import { NewQuiz } from "../../store/newQuiz/types"
 
+import { NewQuiz } from "../../store/newQuiz/types"
 import { addNewQuestion, resetNewQuizState } from "../../store/newQuiz/actions"
 
 import Button from "@mui/material/Button"

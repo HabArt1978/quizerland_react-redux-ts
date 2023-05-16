@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 
+import MenuToggle from "./components/Navigation/MenuToggle"
+
 import QuizesPage from "./pages/quizes/index"
 import ActiveQuizPage from "./pages/quizes/_id"
 import CreateQuizPage from "./pages/quizes/create"
@@ -8,8 +10,6 @@ import RedirectPage from "./pages/redirect"
 import NotFoundPage from "./pages/404/notFound"
 import RegistrationPage from "./pages/auth/registration"
 import QuizesPassed from "./pages/quizes/quizesPassed/QuizesPassed"
-
-import MenuToggle from "./components/Navigation/MenuToggle"
 
 import "./index.css"
 

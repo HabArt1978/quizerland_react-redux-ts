@@ -1,3 +1,8 @@
+import { useAppDispatch } from "../../../store/hooks"
+import { Link } from "react-router-dom"
+
+import { menuToggle } from "../../../store/navigation/actions"
+
 import List from "@mui/material/List"
 import Divider from "@mui/material/Divider"
 import ListItem from "@mui/material/ListItem"
@@ -8,11 +13,7 @@ import AddTaskIcon from "@mui/icons-material/AddTask"
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered"
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser"
 import { Typography } from "@mui/material"
-
 import theme from "../../../mui-theme"
-import { Link } from "react-router-dom"
-import { menuToggle } from "../../../store/navigation/actions"
-import { useAppDispatch } from "../../../store/hooks"
 
 type LinkMenu = {
   to: string

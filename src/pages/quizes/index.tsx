@@ -1,9 +1,11 @@
+import { useAppSelector } from "../../store/hooks"
+
+import WelcomeText from "../../components/WelcomeText"
+import QuizCard from "../../components/QuizCard"
+
 import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
 import theme from "../../mui-theme"
-import WelcomeText from "../../components/WelcomeText"
-import QuizCard from "../../components/QuizCard"
-import { useAppSelector } from "../../store/hooks"
 
 function QuizList() {
   const quizList = useAppSelector(({ quizState }) => quizState.quizes)
