@@ -13,11 +13,15 @@ import theme from "../../../mui-theme"
 interface QestionItemProps {
   questionItem: number
   setQuestionItem: React.Dispatch<React.SetStateAction<number>>
+  setIsValidFormCard: React.Dispatch<React.SetStateAction<boolean>>
+  setIsValidCreateQuestion: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const QuestionsScrollableTabs: FC<QestionItemProps> = ({
   questionItem,
   setQuestionItem,
+  setIsValidFormCard,
+  setIsValidCreateQuestion,
 }) => {
   const newQuiz = useAppSelector(store => store.newQuizState)
   const dispatch = useAppDispatch()
@@ -91,11 +95,12 @@ const QuestionsScrollableTabs: FC<QestionItemProps> = ({
       </Tabs>
 
       {questionItem === 0 ? (
-        <CreateQuizCard />
+        <CreateQuizCard setIsValidFormCard={setIsValidFormCard} />
       ) : (
         <CreateQuestion
           key={questionItem + 1}
           questionIndex={questionItem - 1}
+          setIsValidCreateQuestion={setIsValidCreateQuestion}
         />
       )}
     </Box>

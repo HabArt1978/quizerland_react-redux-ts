@@ -1,3 +1,4 @@
+import { SxProps } from "@mui/material"
 import theme from "../../mui-theme"
 
 export const textFieldStyle = {
@@ -61,5 +62,13 @@ export const selectFieldStyle = {
     "& > fieldset": {
       border: `2px solid ${theme.palette.primary.dark}`,
     },
+  },
+}
+
+export const buttonStyle: SxProps = {
+  py: 1.5,
+  bgcolor: theme.palette.secondary.dark,
+  "&:disabled": {
+    color: theme.palette.grey[500],
   },
 }

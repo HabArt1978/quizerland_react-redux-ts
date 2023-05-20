@@ -10,7 +10,6 @@ import { setQuizQuestion } from "../../../../store/newQuiz/actions"
 import { NewQuestion } from "../../../../store/newQuiz/types"
 
 import Container from "@mui/material/Container"
-import { Typography } from "@mui/material"
 import TextField from "@mui/material/TextField"
 
 import InputLabel from "@mui/material/InputLabel"
@@ -39,22 +38,34 @@ const formToQuestion = (form: any) => {
 
 type CreateQuestionProps = {
   questionIndex: number
+  setIsValidCreateQuestion: React.Dispatch<React.SetStateAction<boolean>>
 }
-const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
+const CreateQuestion: FC<CreateQuestionProps> = ({
+  questionIndex,
+  setIsValidCreateQuestion,
+}) => {
   const dispatch = useAppDispatch()
   const question = useAppSelector(
     state => state.newQuizState.questions[questionIndex],
   )
 
-  const { watch, control } = useForm<FormData>({
+  const {
+    watch,
+    control,
+    formState: { isValid },
+  } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
       text: question.text,
-      correctAnswerIndex: -1,
+      correctAnswerIndex: question.correctAnswerIndex,
       answers: question.answers,
     },
     resolver: yupResolver(schemaYupToQuestion),
   })
+
+  useEffect(() => {
+    isValid ? setIsValidCreateQuestion(true) : setIsValidCreateQuestion(false)
+  }, [isValid, setIsValidCreateQuestion])
 
   useEffect(() => {
     const subscription = watch(value => {
@@ -118,7 +129,7 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
       <Controller
         control={control}
         name="correctAnswerIndex"
-        render={({ field: { value, onChange }, fieldState: { isDirty } }) => (
+        render={({ field: { value, onChange } }) => (
           <div>
             <FormControl sx={selectFieldStyle}>
               <InputLabel id="select-label">
@@ -137,12 +148,10 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
                 }}
               >
                 <MenuItem
-                  value={-1}
                   disabled
+                  sx={{ color: theme.palette.secondary.dark }}
                 >
-                  <em>
-                    <small>Сделайте правильный выбор!</small>
-                  </em>
+                  <em>Не ошибитесь...!</em>
                 </MenuItem>
                 {question.answers.map((_, index) => (
                   <MenuItem
@@ -153,14 +162,6 @@ const CreateQuestion: FC<CreateQuestionProps> = ({ questionIndex }) => {
                   </MenuItem>
                 ))}
               </Select>
-              <Typography
-                variant="body2"
-                component="div"
-                color={theme.palette.error.main}
-                sx={{ mb: "1rem" }}
-              >
-                {!isDirty && "Не забудьте выбрать ответ!"}
-              </Typography>
             </FormControl>
           </div>
         )}

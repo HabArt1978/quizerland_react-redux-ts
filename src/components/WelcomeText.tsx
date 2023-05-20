@@ -32,6 +32,7 @@ function WelcomeText() {
       <Typography
         component="h1"
         color="white"
+        gutterBottom
         sx={titleStyles}
       >
         <span>

@@ -1,6 +1,19 @@
 import * as yup from "yup"
 
-export const schemaYup = yup.object().shape({
+export const schemaYupForAuth = yup.object().shape({
+  email: yup
+    .string()
+    .email("Электронная почта имеет невалидное значение!")
+    .required("* Поле обязательное для заполнения!"),
+
+  password: yup
+    .string()
+    .required("* Поле обязательное для заполнения!")
+    .min(8, "Пароль должен иметь не менее 8 символов!")
+    .max(32, "Пароль не может иметь более 32 символов!"),
+})
+
+export const schemaYupForReg = yup.object().shape({
   name: yup
     .string()
     .when("$regex1", (regex1, schema) =>

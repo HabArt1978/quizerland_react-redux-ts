@@ -41,6 +41,7 @@ const QuizesPassed = () => {
             <Typography
               variant="h3"
               component="h1"
+              gutterBottom
               color={theme.palette.primary.dark}
               sx={{ mt: "-8rem", "z-index": 1 }}
             >

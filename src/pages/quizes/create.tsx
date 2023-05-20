@@ -1,6 +1,6 @@
-import { FC, useState } from "react"
+import { FC, useState, useEffect } from "react"
 
-import { ButtonGroupToCreate } from "../../components/CreateQuiz/ButtonGroupToCreate"
+import { ButtonToCreate } from "../../components/CreateQuiz/ButtonToCreate/ButtonToCreate"
 import QuestionsScrollableTabs from "../../components/CreateQuiz/QuestionsScrollableTabs/QuestionsScrollableTabs"
 
 import { Container, Typography } from "@mui/material"
@@ -8,6 +8,15 @@ import theme from "../../mui-theme"
 
 const CreateQuiz: FC = () => {
   const [questionItem, setQuestionItem] = useState(0)
+  const [isValidFormCard, setIsValidFormCard] = useState(false)
+  const [isValidCreateQuestion, setIsValidCreateQuestion] = useState(false)
+  const [isValidMerg, setIsValidMerg] = useState(false)
+
+  useEffect(() => {
+    isValidFormCard && isValidCreateQuestion
+      ? setIsValidMerg(true)
+      : setIsValidMerg(false)
+  }, [isValidFormCard, isValidCreateQuestion])
 
   return (
     <div
@@ -39,8 +48,13 @@ const CreateQuiz: FC = () => {
           <QuestionsScrollableTabs
             questionItem={questionItem}
             setQuestionItem={setQuestionItem}
+            setIsValidFormCard={setIsValidFormCard}
+            setIsValidCreateQuestion={setIsValidCreateQuestion}
           />
-          <ButtonGroupToCreate setQuestionItem={setQuestionItem} />
+          <ButtonToCreate
+            setQuestionItem={setQuestionItem}
+            isValidMerg={isValidMerg}
+          />
         </Container>
       </Container>
     </div>
