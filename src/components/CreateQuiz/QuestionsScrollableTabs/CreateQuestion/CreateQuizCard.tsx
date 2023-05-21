@@ -15,11 +15,19 @@ import { setQuizAnnotation } from "../../../../store/newQuiz/actions"
 
 type FormData = yup.InferType<typeof schemaYupToAnnotation>
 
-const CreateQuizCard: FC = () => {
+type IsValid = {
+  setIsValidFormCard: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const CreateQuizCard: FC<IsValid> = ({ setIsValidFormCard }) => {
   const currentAnnotation = useAppSelector(({ newQuizState }) => newQuizState)
   const dispatch = useAppDispatch()
 
-  const { watch, control } = useForm<FormData>({
+  const {
+    watch,
+    control,
+    formState: { isValid },
+  } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
       title: currentAnnotation.title,
@@ -27,6 +35,10 @@ const CreateQuizCard: FC = () => {
     },
     resolver: yupResolver(schemaYupToAnnotation),
   })
+
+  useEffect(() => {
+    isValid ? setIsValidFormCard(true) : setIsValidFormCard(false)
+  }, [isValid, setIsValidFormCard])
 
   useEffect(() => {
     const subscription = watch(value => {
