@@ -94,7 +94,10 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography variant="body1">
+                  <Typography
+                    variant="body1"
+                    gutterBottom
+                  >
                     Неверные ответы:{" "}
                     <span style={{ fontSize: "1.2rem" }}>
                       {quiz.questions.length - rightAnswers}
@@ -109,7 +112,10 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography variant="body1">
+                  <Typography
+                    variant="body1"
+                    gutterBottom
+                  >
                     Верные ответы:{" "}
                     <span style={{ fontSize: "1.2rem" }}>{rightAnswers}</span>
                   </Typography>

@@ -42,6 +42,7 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
           <Typography
             variant="subtitle1"
             sx={{ mt: "0.5rem" }}
+            gutterBottom
           >
             {quizProp.description}
           </Typography>

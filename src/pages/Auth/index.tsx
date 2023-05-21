@@ -15,13 +15,13 @@ import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import theme from "../../mui-theme"
 
-import { errorStyles } from "./styles"
+import { buttonStyle, fieldStyles } from "./styles"
 
-import { schemaYup } from "./authValidation"
+import { loginSchema } from "./authValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
-type FormData = yup.InferType<typeof schemaYup>
+type FormData = yup.InferType<typeof loginSchema>
 
 const AuthPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -35,7 +35,7 @@ const AuthPage: FC = () => {
   } = useForm<FormData>({
     mode: "onChange",
     defaultValues: { email: "", password: "" },
-    resolver: yupResolver(schemaYup),
+    resolver: yupResolver(loginSchema),
   })
 
   const onSubmit: SubmitHandler<FormData> = data => {
@@ -66,6 +66,7 @@ const AuthPage: FC = () => {
           <Typography
             variant="h4"
             component="h1"
+            gutterBottom
             color={theme.palette.grey[100]}
             sx={{ pl: "0.5rem", mb: "2rem" }}
           >
@@ -98,7 +99,7 @@ const AuthPage: FC = () => {
                   variant="standard"
                   error={!!error}
                   helperText={error?.message}
-                  sx={errorStyles}
+                  sx={fieldStyles}
                 />
               </Box>
             )}
@@ -129,11 +130,12 @@ const AuthPage: FC = () => {
                   error={!!error}
                   helperText={error?.message}
                   variant="standard"
-                  sx={errorStyles}
+                  sx={fieldStyles}
                 />
 
                 <IconButton
-                  onClick={handleClickShowPassword}
+                  onMouseDown={handleClickShowPassword}
+                  onMouseUp={handleClickShowPassword}
                   sx={{ mb: 1.5 }}
                 >
                   {showPassword ? <Visibility /> : <VisibilityOff />}
@@ -145,6 +147,7 @@ const AuthPage: FC = () => {
           <Typography
             variant="body2"
             component="div"
+            gutterBottom
             color={theme.palette.error.main}
             sx={{ mb: "2rem" }}
           >
@@ -156,8 +159,9 @@ const AuthPage: FC = () => {
             onClick={handleSubmit(onSubmit)}
             disabled={!isDirty || !isValid}
             size="small"
+            color="primary"
             variant="contained"
-            sx={{ py: 1.5, bgcolor: theme.palette.primary.dark }}
+            sx={buttonStyle}
             startIcon={
               <InputOutlinedIcon
                 sx={{

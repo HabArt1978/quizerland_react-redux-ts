@@ -79,6 +79,7 @@ const LinksList = () => {
                       <Typography
                         variant="h6"
                         color={theme.palette.secondary.main}
+                        gutterBottom
                       >
                         {link.label}
                       </Typography>
