@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react"
+import { FC, useState } from "react"
 
 import { ButtonToCreate } from "../../components/CreateQuiz/ButtonToCreate/ButtonToCreate"
 import QuestionsScrollableTabs from "../../components/CreateQuiz/QuestionsScrollableTabs/QuestionsScrollableTabs"
@@ -10,13 +10,8 @@ const CreateQuiz: FC = () => {
   const [questionItem, setQuestionItem] = useState(0)
   const [isValidFormCard, setIsValidFormCard] = useState(false)
   const [isValidCreateQuestion, setIsValidCreateQuestion] = useState(false)
-  const [isValidMerg, setIsValidMerg] = useState(false)
 
-  useEffect(() => {
-    isValidFormCard && isValidCreateQuestion
-      ? setIsValidMerg(true)
-      : setIsValidMerg(false)
-  }, [isValidFormCard, isValidCreateQuestion])
+  const isValidMerge = isValidFormCard && isValidCreateQuestion
 
   return (
     <div
@@ -53,7 +48,7 @@ const CreateQuiz: FC = () => {
           />
           <ButtonToCreate
             setQuestionItem={setQuestionItem}
-            isValidMerg={isValidMerg}
+            isValidMerg={isValidMerge}
           />
         </Container>
       </Container>
