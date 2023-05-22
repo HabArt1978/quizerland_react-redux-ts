@@ -3,7 +3,7 @@ import { FC, useState } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 
 import Container from "@mui/material/Container"
-import { FormHelperText, Typography } from "@mui/material"
+import { Alert, FormHelperText, Typography } from "@mui/material"
 import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
@@ -18,7 +18,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Input from "@mui/material/Input"
 import theme from "../../mui-theme"
 
-import { buttonStyle, fieldStyles } from "./styles"
+import { alertStyle, buttonStyle, fieldStyles } from "./styles"
+
+import { AxiosError } from "axios"
+import api from "../../api"
 
 import { registrationSchema } from "./authValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -56,7 +59,7 @@ const inputFields: InputField[] = [
     required: true,
   },
   {
-    inputName: "confirmPassword",
+    inputName: "password_confirmation",
     label: "Подтвердите пароль",
     placeholder: "Повторите пароль",
     type: "password",
@@ -67,6 +70,7 @@ const inputFields: InputField[] = [
 const RegistrationPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [queryError, setQueryError] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
   const handleClickShowConfirmPassword = () =>
@@ -83,14 +87,25 @@ const RegistrationPage: FC = () => {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      password_confirmation: "",
     },
     resolver: yupResolver(registrationSchema),
   })
 
-  const onSubmit: SubmitHandler<FormData> = data => {
-    console.log(data)
-    reset()
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    try {
+      await api.auth.register(data)
+
+      reset()
+    } catch (error: any) {
+      if (!(error instanceof AxiosError)) return
+      if (error.response?.status === 422) {
+        setQueryError(true)
+        setTimeout(() => {
+          setQueryError(false)
+        }, 3000)
+      }
+    }
   }
 
   return (
@@ -251,6 +266,16 @@ const RegistrationPage: FC = () => {
           >
             Зарегистрироваться
           </Button>
+
+          {queryError && (
+            <Alert
+              severity="error"
+              variant="filled"
+              sx={alertStyle}
+            >
+              <b>Невалидные данные!</b>
+            </Alert>
+          )}
 
           <Link
             to="/auth"

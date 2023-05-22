@@ -55,7 +55,7 @@ export const registrationSchema = yup.object().shape({
     .min(8, "Пароль должен иметь не менее 8 символов!")
     .max(32, "Пароль не может иметь более 32 символов!"),
 
-  confirmPassword: yup
+  password_confirmation: yup
     .string()
     .required("* Поле обязательное для заполнения!")
     .oneOf([yup.ref("password"), ""], "Пароли должны совпадать!"),

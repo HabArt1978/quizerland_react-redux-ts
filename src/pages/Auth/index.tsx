@@ -15,8 +15,9 @@ import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import theme from "../../mui-theme"
 
-import api from "../../api"
 import { buttonStyle, fieldStyles, alertStyle } from "./styles"
+
+import api from "../../api"
 
 import { loginSchema } from "./authValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -44,6 +45,8 @@ const AuthPage: FC = () => {
   const onSubmit: SubmitHandler<FormData> = async data => {
     try {
       await api.auth.login(data)
+
+      reset()
     } catch (error: any) {
       if (error.response.status === 422) {
         setQueryError(true)
@@ -52,7 +55,6 @@ const AuthPage: FC = () => {
         }, 3000)
       }
     }
-    reset()
   }
 
   return (
