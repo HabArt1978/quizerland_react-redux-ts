@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 
 import Container from "@mui/material/Container"
-import { IconButton, Typography } from "@mui/material"
+import { Alert, IconButton, Typography } from "@mui/material"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import LockIcon from "@mui/icons-material/Lock"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -15,7 +15,8 @@ import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import theme from "../../mui-theme"
 
-import { buttonStyle, fieldStyles } from "./styles"
+import api from "../../api"
+import { buttonStyle, fieldStyles, alertStyle } from "./styles"
 
 import { loginSchema } from "./authValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -25,6 +26,8 @@ type FormData = yup.InferType<typeof loginSchema>
 
 const AuthPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [queryError, setQueryError] = useState(false)
+
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
   const {
@@ -38,8 +41,17 @@ const AuthPage: FC = () => {
     resolver: yupResolver(loginSchema),
   })
 
-  const onSubmit: SubmitHandler<FormData> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    try {
+      await api.auth.login(data)
+    } catch (error: any) {
+      if (error.response.status === 422) {
+        setQueryError(true)
+        setTimeout(() => {
+          setQueryError(false)
+        }, 3000)
+      }
+    }
     reset()
   }
 
@@ -151,7 +163,7 @@ const AuthPage: FC = () => {
             color={theme.palette.error.main}
             sx={{ mb: "2rem" }}
           >
-            {!isDirty && !isValid && "Заполниете поля для авторизации"}
+            {!isDirty && !isValid && "Заполниете поля для авторизации!"}
           </Typography>
 
           <Button
@@ -173,6 +185,16 @@ const AuthPage: FC = () => {
           >
             Вход
           </Button>
+
+          {queryError && (
+            <Alert
+              severity="error"
+              variant="filled"
+              sx={alertStyle}
+            >
+              <b>Неверный логин и/или пароль!</b>
+            </Alert>
+          )}
 
           <Link
             to="/registration"

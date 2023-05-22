@@ -229,7 +229,7 @@ const RegistrationPage: FC = () => {
             color={theme.palette.error.main}
             sx={{ mb: "2rem" }}
           >
-            {!isDirty && !isValid && "Заполниете поля для регистрации"}
+            {!isDirty && !isValid && "Заполниете поля для регистрации!"}
           </Typography>
 
           <Button

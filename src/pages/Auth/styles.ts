@@ -20,3 +20,11 @@ export const buttonStyle: SxProps = {
     color: theme.palette.grey[500],
   },
 }
+
+export const alertStyle: SxProps = {
+  mt: "1rem",
+  bgcolor: theme.palette.secondary.light,
+  "& .MuiAlert-icon": {
+    color: "red",
+  },
+}

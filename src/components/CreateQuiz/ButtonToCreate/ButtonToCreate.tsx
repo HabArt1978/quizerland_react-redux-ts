@@ -57,7 +57,7 @@ export const ButtonToCreate: FC<setQuestionItemProps> = ({
       {!isValidMerg && (
         <Typography
           variant="body2"
-          sx={{ color: theme.palette.secondary.light }}
+          sx={{ color: theme.palette.secondary.main }}
         >
           * Заполните все поля в соответствии с правилами!
         </Typography>
@@ -104,7 +104,7 @@ export const ButtonToCreate: FC<setQuestionItemProps> = ({
           size="small"
           color="secondary"
           variant="contained"
-          sx={{ py: 1.5, bgcolor: theme.palette.secondary.dark }}
+          sx={buttonStyle}
           startIcon={
             <SaveAsIcon
               sx={{
