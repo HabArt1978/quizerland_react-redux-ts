@@ -31,9 +31,8 @@ type FinishedQuizCardProps = {
 }
 
 const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
-  const activeQuizID = useAppSelector(({ quizState }) => quizState.activeID)
-  const quizesLength = useAppSelector(
-    ({ quizState }) => quizState.quizes.length,
+  const quizNotPassed = useAppSelector(({ quizState }) =>
+    quizState.quizes.find(quiz => quiz.isFinished === false),
   )
 
   const dispatch = useAppDispatch()
@@ -54,7 +53,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
   const toNextQuiz = () => {
     setIsLoading("next")
 
-    if (activeQuizID + 1 > quizesLength) {
+    if (!quizNotPassed) {
       setTimeout(() => {
         navigate("/quizes-passed")
       }, 1000)
@@ -62,8 +61,8 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
     }
 
     setTimeout(() => {
-      dispatch(setActiveQuiz(quiz.id + 1))
-      navigate(`/quizes/${quiz.id + 1}`)
+      dispatch(setActiveQuiz(quizNotPassed?.id))
+      navigate(`/quizes/${quizNotPassed?.id}`)
     }, 1000)
   }
 
@@ -76,7 +75,6 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
     >
       <CardContent>
         <Typography
-          gutterBottom
           variant="h5"
           component="div"
           sx={{ mb: "1rem" }}
@@ -94,10 +92,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography
-                    variant="body1"
-                    gutterBottom
-                  >
+                  <Typography variant="body1">
                     Неверные ответы:{" "}
                     <span style={{ fontSize: "1.2rem" }}>
                       {quiz.questions.length - rightAnswers}
@@ -112,10 +107,7 @@ const FinishedQuizCard: React.FC<FinishedQuizCardProps> = ({ quiz }) => {
               </ListItemIcon>
               <ListItemText
                 primary={
-                  <Typography
-                    variant="body1"
-                    gutterBottom
-                  >
+                  <Typography variant="body1">
                     Верные ответы:{" "}
                     <span style={{ fontSize: "1.2rem" }}>{rightAnswers}</span>
                   </Typography>
