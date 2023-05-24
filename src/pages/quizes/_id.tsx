@@ -57,7 +57,6 @@ function ActiveQuiz() {
                   variant="h5"
                   component="h1"
                   color={theme.palette.secondary.main}
-                  gutterBottom
                   sx={{ pl: "0.5rem", mb: 0 }}
                 >
                   Викторина не найдена!

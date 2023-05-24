@@ -27,7 +27,6 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
             variant="h5"
             component="h2"
             color="initial"
-            gutterBottom
             sx={{
               display: "flex",
               justifyContent: "space-between",
@@ -42,7 +41,6 @@ export default function QuizCard({ quizProp }: QuizCardProps) {
           <Typography
             variant="subtitle1"
             sx={{ mt: "0.5rem" }}
-            gutterBottom
           >
             {quizProp.description}
           </Typography>

@@ -34,7 +34,6 @@ const CreateQuiz: FC = () => {
             variant="h4"
             component="h1"
             color={theme.palette.primary.contrastText}
-            gutterBottom
             sx={{ pl: "0.5rem", mb: "1rem" }}
           >
             Создание теста
