@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios"
+import { User } from "../../store/auth/types"
 
 type LoginPayload = {
   email: string
@@ -21,6 +22,12 @@ const authModule = (httpClient: AxiosInstance) => ({
   async register(data: RegisterPayload) {
     await httpClient.get("/sanctum/csrf-cookie")
     await httpClient.post("/register", data)
+  },
+
+  async user() {
+    await httpClient.get("/sanctum/csrf-cookie")
+    const response = await httpClient.get("/api/user")
+    return response.data as User
   },
 })
 

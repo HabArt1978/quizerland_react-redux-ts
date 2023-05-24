@@ -15,7 +15,7 @@ import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import theme from "../../mui-theme"
 
-import { buttonStyle, fieldStyles, alertStyle } from "./styles"
+import { buttonStyle, fieldStyles, alertErrorStyle } from "./styles"
 
 import api from "../../api"
 
@@ -80,7 +80,6 @@ const AuthPage: FC = () => {
           <Typography
             variant="h4"
             component="h1"
-            gutterBottom
             color={theme.palette.grey[100]}
             sx={{ pl: "0.5rem", mb: "2rem" }}
           >
@@ -161,7 +160,6 @@ const AuthPage: FC = () => {
           <Typography
             variant="body2"
             component="div"
-            gutterBottom
             color={theme.palette.error.main}
             sx={{ mb: "2rem" }}
           >
@@ -192,7 +190,7 @@ const AuthPage: FC = () => {
             <Alert
               severity="error"
               variant="filled"
-              sx={alertStyle}
+              sx={alertErrorStyle}
             >
               <b>Неверный логин и/или пароль!</b>
             </Alert>

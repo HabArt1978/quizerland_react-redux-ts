@@ -21,10 +21,18 @@ export const buttonStyle: SxProps = {
   },
 }
 
-export const alertStyle: SxProps = {
+export const alertErrorStyle: SxProps = {
   mt: "1rem",
   bgcolor: theme.palette.secondary.light,
   "& .MuiAlert-icon": {
     color: "red",
+  },
+}
+
+export const alertSuccessStyle: SxProps = {
+  mt: "1rem",
+  bgcolor: "#80cbc4",
+  "& .MuiAlert-icon": {
+    color: "green",
   },
 }

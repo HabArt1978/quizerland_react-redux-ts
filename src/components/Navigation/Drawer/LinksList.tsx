@@ -1,4 +1,4 @@
-import { useAppDispatch } from "../../../store/hooks"
+import { useAppDispatch, useAppSelector } from "../../../store/hooks"
 import { Link } from "react-router-dom"
 
 import { menuToggle } from "../../../store/navigation/actions"
@@ -15,6 +15,8 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser"
 import { Typography } from "@mui/material"
 import theme from "../../../mui-theme"
 
+import { disabledLink, iconColor } from "./styles"
+
 type LinkMenu = {
   to: string
   label: string
@@ -30,21 +32,21 @@ const links: LinkMenu[] = [
 const setIconLink = (link: LinkMenu) => {
   if (link.name === "quizes") {
     return (
-      <ListItemIcon style={{ color: "mediumpurple" }}>
+      <ListItemIcon style={iconColor}>
         <FormatListNumberedIcon />
       </ListItemIcon>
     )
   }
   if (link.name === "create-quiz") {
     return (
-      <ListItemIcon style={{ color: "mediumpurple" }}>
+      <ListItemIcon style={iconColor}>
         <AddTaskIcon />
       </ListItemIcon>
     )
   }
   if (link.name === "auth") {
     return (
-      <ListItemIcon style={{ color: "mediumpurple" }}>
+      <ListItemIcon style={iconColor}>
         <VerifiedUserIcon />
       </ListItemIcon>
     )
@@ -52,6 +54,7 @@ const setIconLink = (link: LinkMenu) => {
 }
 
 const LinksList = () => {
+  const user = useAppSelector(({ authState }) => authState.user)
   const dispatch = useAppDispatch()
 
   return (
@@ -59,8 +62,8 @@ const LinksList = () => {
       {links.map(link => (
         <Link
           to={link.to}
-          style={{ textDecoration: "none", color: "white" }}
           key={link.to}
+          style={link.name === "create-quiz" && !user ? disabledLink : {}}
         >
           <>
             {link.name === "auth" && (
@@ -69,8 +72,12 @@ const LinksList = () => {
             <ListItem
               key={link.label}
               disablePadding
+              sx={{ m: 0 }}
             >
-              <ListItemButton onClick={() => dispatch(menuToggle())}>
+              <ListItemButton
+                onClick={() => dispatch(menuToggle())}
+                disabled={link.name === "create-quiz" && !user}
+              >
                 <>
                   {setIconLink(link)}
 
@@ -79,7 +86,6 @@ const LinksList = () => {
                       <Typography
                         variant="h6"
                         color={theme.palette.secondary.main}
-                        gutterBottom
                       >
                         {link.label}
                       </Typography>

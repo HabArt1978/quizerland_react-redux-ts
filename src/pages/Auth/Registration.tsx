@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import { useAppSelector, useAppDispatch } from "../../store/hooks"
 import { FC, useState } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+
+import { setUser } from "../../store/auth/actions"
 
 import Container from "@mui/material/Container"
 import { Alert, FormHelperText, Typography } from "@mui/material"
@@ -18,9 +21,13 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Input from "@mui/material/Input"
 import theme from "../../mui-theme"
 
-import { alertStyle, buttonStyle, fieldStyles } from "./styles"
+import {
+  alertErrorStyle,
+  alertSuccessStyle,
+  buttonStyle,
+  fieldStyles,
+} from "./styles"
 
-import { AxiosError } from "axios"
 import api from "../../api"
 
 import { registrationSchema } from "./authValidation"
@@ -68,9 +75,13 @@ const inputFields: InputField[] = [
 ]
 
 const RegistrationPage: FC = () => {
+  const user = useAppSelector(({ authState }) => authState.user)
+  const dispatch = useAppDispatch()
+
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [queryError, setQueryError] = useState(false)
+  const [querySuccess, setQuerySuccess] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
   const handleClickShowConfirmPassword = () =>
@@ -95,10 +106,17 @@ const RegistrationPage: FC = () => {
   const onSubmit: SubmitHandler<FormData> = async data => {
     try {
       await api.auth.register(data)
+      const user = await api.auth.user()
+
+      dispatch(setUser(user))
+
+      setQuerySuccess(true)
+      setTimeout(() => {
+        setQuerySuccess(false)
+      }, 3000)
 
       reset()
     } catch (error: any) {
-      if (!(error instanceof AxiosError)) return
       if (error.response?.status === 422) {
         setQueryError(true)
         setTimeout(() => {
@@ -132,7 +150,6 @@ const RegistrationPage: FC = () => {
             variant="h4"
             component="h1"
             color={theme.palette.grey[100]}
-            gutterBottom
             sx={{ pl: "0.5rem", mb: "2rem" }}
           >
             Регистрация
@@ -240,7 +257,6 @@ const RegistrationPage: FC = () => {
           <Typography
             variant="body2"
             component="div"
-            gutterBottom
             color={theme.palette.error.main}
             sx={{ mb: "2rem" }}
           >
@@ -267,11 +283,21 @@ const RegistrationPage: FC = () => {
             Зарегистрироваться
           </Button>
 
+          {querySuccess && (
+            <Alert
+              severity="success"
+              variant="filled"
+              sx={alertSuccessStyle}
+            >
+              <b>Пользователь успешно зарегистрирован!</b>
+            </Alert>
+          )}
+
           {queryError && (
             <Alert
               severity="error"
               variant="filled"
-              sx={alertStyle}
+              sx={alertErrorStyle}
             >
               <b>Невалидные данные!</b>
             </Alert>
