@@ -29,6 +29,10 @@ const authModule = (httpClient: AxiosInstance) => ({
     const response = await httpClient.get("/api/user")
     return response.data as User
   },
+
+  async logout() {
+    return httpClient.post("/logout")
+  },
 })
 
 export default authModule

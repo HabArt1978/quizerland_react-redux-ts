@@ -1,7 +1,11 @@
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
+import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 
 import { menuToggle } from "../../../store/navigation/actions"
+import { unsetUser } from "../../../store/auth/actions"
+
+import api from "../../../api"
 
 import List from "@mui/material/List"
 import Divider from "@mui/material/Divider"
@@ -12,6 +16,7 @@ import ListItemText from "@mui/material/ListItemText"
 import AddTaskIcon from "@mui/icons-material/AddTask"
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered"
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser"
+import LogoutIcon from "@mui/icons-material/Logout"
 import { Typography } from "@mui/material"
 import theme from "../../../mui-theme"
 
@@ -22,12 +27,6 @@ type LinkMenu = {
   label: string
   name: string
 }
-
-const links: LinkMenu[] = [
-  { to: "/quizes", label: "Список тестов", name: "quizes" },
-  { to: "/create-quiz", label: "Создать тест", name: "create-quiz" },
-  { to: "/auth", label: "Авторизация", name: "auth" },
-]
 
 const setIconLink = (link: LinkMenu) => {
   if (link.name === "quizes") {
@@ -51,11 +50,49 @@ const setIconLink = (link: LinkMenu) => {
       </ListItemIcon>
     )
   }
+  if (link.name === "logout") {
+    return (
+      <ListItemIcon style={iconColor}>
+        <LogoutIcon />
+      </ListItemIcon>
+    )
+  }
 }
 
 const LinksList = () => {
   const user = useAppSelector(({ authState }) => authState.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const links: LinkMenu[] = [
+    { to: "/quizes", label: "Список тестов", name: "quizes" },
+  ]
+
+  if (user) {
+    links.push({
+      to: "/create-quiz",
+      label: "Создать тест",
+      name: "create-quiz",
+    })
+    links.push({ to: "/", label: "Выйти", name: "logout" })
+  } else {
+    links.push({
+      to: "/create-quiz",
+      label: "Создать тест",
+      name: "create-quiz",
+    })
+    links.push({ to: "/auth", label: "Авторизация", name: "auth" })
+  }
+
+  const logoutHandler = (linkName: string) => {
+    if (linkName !== "logout") {
+      return
+    } else {
+      api.auth.logout()
+      dispatch(unsetUser())
+      navigate("/quizes")
+    }
+  }
 
   return (
     <List>
@@ -66,13 +103,14 @@ const LinksList = () => {
           style={link.name === "create-quiz" && !user ? disabledLink : {}}
         >
           <>
-            {link.name === "auth" && (
+            {(link.name === "auth" || link.name === "logout") && (
               <Divider sx={{ maxWidth: "90%", marginX: "auto" }} />
             )}
             <ListItem
               key={link.label}
               disablePadding
               sx={{ m: 0 }}
+              onClick={() => logoutHandler(link.name)}
             >
               <ListItemButton
                 onClick={() => dispatch(menuToggle())}

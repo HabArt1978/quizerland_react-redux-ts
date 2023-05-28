@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import { useAppSelector, useAppDispatch } from "../../store/hooks"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppDispatch } from "../../store/hooks"
 import { FC, useState } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 
@@ -75,8 +75,8 @@ const inputFields: InputField[] = [
 ]
 
 const RegistrationPage: FC = () => {
-  const user = useAppSelector(({ authState }) => authState.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -113,6 +113,7 @@ const RegistrationPage: FC = () => {
       setQuerySuccess(true)
       setTimeout(() => {
         setQuerySuccess(false)
+        navigate("/quizes")
       }, 3000)
 
       reset()

@@ -16,7 +16,6 @@ import RegistrationPage from "./pages/auth/registration"
 import QuizesPassed from "./pages/quizes/quizesPassed/QuizesPassed"
 
 import "./index.css"
-import { error } from "console"
 
 function App() {
   const dispatch = useAppDispatch()
@@ -26,7 +25,9 @@ function App() {
     api.auth
       .user()
       .then(user => dispatch(setUser(user)))
-      .catch(error => console.error(`Пользователь не авторизован / ${error}`))
+      .catch(error =>
+        console.error(`Пользователь не зарегистрирован! / ${error}`),
+      )
   }, [dispatch])
 
   return (

@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 
 import Container from "@mui/material/Container"
@@ -15,19 +15,29 @@ import Box from "@mui/material/Box"
 import InputOutlinedIcon from "@mui/icons-material/InputOutlined"
 import theme from "../../mui-theme"
 
-import { buttonStyle, fieldStyles, alertErrorStyle } from "./styles"
+import {
+  buttonStyle,
+  fieldStyles,
+  alertErrorStyle,
+  alertSuccessStyle,
+} from "./styles"
 
 import api from "../../api"
 
 import { loginSchema } from "./authValidation"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { useAppDispatch } from "../../store/hooks"
+import { setUser } from "../../store/auth/actions"
 
 type FormData = yup.InferType<typeof loginSchema>
 
 const AuthPage: FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [queryError, setQueryError] = useState(false)
+  const [querySuccess, setQuerySuccess] = useState(false)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
@@ -45,6 +55,16 @@ const AuthPage: FC = () => {
   const onSubmit: SubmitHandler<FormData> = async data => {
     try {
       await api.auth.login(data)
+
+      setQuerySuccess(true)
+      setTimeout(() => {
+        setQuerySuccess(false)
+        navigate("/quizes")
+      }, 3000)
+
+      const user = await api.auth.user()
+
+      dispatch(setUser(user))
 
       reset()
     } catch (error: any) {
@@ -185,6 +205,16 @@ const AuthPage: FC = () => {
           >
             Вход
           </Button>
+
+          {querySuccess && (
+            <Alert
+              severity="success"
+              variant="filled"
+              sx={alertSuccessStyle}
+            >
+              <b>Вход выполнен успешно!</b>
+            </Alert>
+          )}
 
           {queryError && (
             <Alert

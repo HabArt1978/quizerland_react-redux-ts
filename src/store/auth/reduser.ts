@@ -15,6 +15,13 @@ const AuthReduser: Reducer<AuthState, AuthAction> = (
       }
     }
 
+    case "UNSET_USER": {
+      return {
+        ...state,
+        user: null,
+      }
+    }
+
     default:
       return state
   }
