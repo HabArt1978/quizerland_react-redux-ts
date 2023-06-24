@@ -1,6 +1,6 @@
 import { FC, useState } from "react"
 
-import { ButtonToCreate } from "../../components/CreateQuiz/ButtonToCreate/ButtonToCreate"
+import { ButtonToCreate } from "../../components/CreateQuiz/ButtonsToCreate/ButtonsToCreate"
 import QuestionsScrollableTabs from "../../components/CreateQuiz/QuestionsScrollableTabs/QuestionsScrollableTabs"
 
 import { Container, Typography } from "@mui/material"
